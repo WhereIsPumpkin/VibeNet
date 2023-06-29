@@ -9,6 +9,9 @@ export default {
       boxShadow: {
         custom: "0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1)",
       },
+      gridTemplateColumns: {
+        custom: "repeat(2, 194px)",
+      },
     },
   },
   plugins: [],

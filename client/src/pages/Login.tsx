@@ -1,9 +1,14 @@
+import { useRef } from "react";
+import Register from "../components/Register";
+
 const Login = () => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
   return (
-    <div className="bg-[#f0f2f5] w-full h-screen flex items-center font-rubik">
+    <div className="bg-[#f0f2f5] w-screen h-screen flex items-center font-rubik">
       <div className="mr-auto ml-auto flex items-center">
         <div className="w-50 mr-20">
-          <h1 className="text-[#1877F2] text-4xl font-bold">VibeNet</h1>
+          <h1 className="text-[#1877F2] text-4xl font-bold mb-4">VibeNet</h1>
           <p className="text-xl w-[500px] font-normal">
             "Connect, vibe, and explore the world on VibeNet – your ultimate
             social destination!"
@@ -13,12 +18,12 @@ const Login = () => {
         <div className="bg-white p-5 w-96 rounded-lg shadow-custom">
           <form className="flex flex-col gap-4">
             <input
-              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2]"
+              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877F2]"
               placeholder="Email"
               type="email"
             />
             <input
-              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2]"
+              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877F2]"
               placeholder="Password"
               type="password"
             />
@@ -34,7 +39,17 @@ const Login = () => {
 
             <hr />
 
-            <button className="bg-[#42b72a] w-48 mx-auto rounded-md h-12 text-white font-medium">
+            <dialog ref={dialogRef} className="rounded-md">
+              <Register />
+            </dialog>
+
+            <button
+              type="button"
+              onClick={() =>
+                dialogRef.current ? dialogRef.current.showModal() : null
+              }
+              className="bg-[#42b72a] w-48 mx-auto rounded-md h-12 text-white font-medium"
+            >
               Create new account
             </button>
           </form>
