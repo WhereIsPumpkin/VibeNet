@@ -18,12 +18,12 @@ const Login = () => {
         <div className="bg-white p-5 w-96 rounded-lg shadow-custom">
           <form className="flex flex-col gap-4">
             <input
-              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877F2]"
+              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877f2]"
               placeholder="Email"
               type="email"
             />
             <input
-              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877F2]"
+              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877f2]"
               placeholder="Password"
               type="password"
             />
@@ -39,10 +39,6 @@ const Login = () => {
 
             <hr />
 
-            <dialog ref={dialogRef} className="rounded-md">
-              <Register />
-            </dialog>
-
             <button
               type="button"
               onClick={() =>
@@ -53,6 +49,10 @@ const Login = () => {
               Create new account
             </button>
           </form>
+
+          <dialog ref={dialogRef} className="rounded-md">
+            <Register dialogRef={dialogRef} />
+          </dialog>
         </div>
       </div>
     </div>
@@ -60,3 +60,4 @@ const Login = () => {
 };
 
 export default Login;
+``;
