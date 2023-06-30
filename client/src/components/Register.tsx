@@ -1,21 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { ErrorIcon } from "./icons.tsx";
 
 const Register = ({ dialogRef }) => {
   const [showCustomGender, setShowCustomGender] = useState(false);
 
-  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setShowCustomGender(event.target.value === "custom");
-  };
-
   const schema = yup.object().shape({
     name: yup.string().required(),
     lastName: yup.string().required(),
     email: yup.string().email().required(),
-    password: yup.string().min(8).max(20).required(),
+    password: yup.string().min(6).max(20).required(),
     gender: yup.string().required(),
   });
 
@@ -23,9 +19,18 @@ const Register = ({ dialogRef }) => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const gender = watch("gender");
+
+  console.log(gender);
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <div className="flex flex-col font-rubik gap-4">
@@ -54,7 +59,7 @@ const Register = ({ dialogRef }) => {
       </div>
 
       <form
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-2 gap-x-3 gap-y-3"
       >
         <div className="relative">
@@ -88,22 +93,36 @@ const Register = ({ dialogRef }) => {
           )}
         </div>
 
-        <input
-          {...register("email")}
-          type="email"
-          placeholder="Email"
-          className={`row-start-2 row-end-3 col-start-1 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border ${
-            errors.email ? "border-red-500" : "border-[#ccd0d5]"
-          } focus:outline-none text-base`}
-        />
-        <input
-          {...register("password")}
-          type="password"
-          placeholder="New Password"
-          className={`row-start-3 row-end-4 col-start-1 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border ${
-            errors.password ? "border-red-500" : "border-[#ccd0d5]"
-          } focus:outline-none text-base`}
-        />
+        <div className="row-start-2 row-end-3 col-start-1 col-end-3 relative">
+          <input
+            {...register("email")}
+            type="email"
+            placeholder="Email"
+            className={` w-full p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+              errors.email ? "border-red-500" : "border-[#ccd0d5]"
+            } focus:outline-none text-base`}
+          />
+          {errors.email && (
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              <ErrorIcon />
+            </div>
+          )}
+        </div>
+        <div className="row-start-3 row-end-4 col-start-1 col-end-3 relative">
+          <input
+            {...register("password")}
+            type="password"
+            placeholder="New Password"
+            className={`w-full p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+              errors.password ? "border-red-500" : "border-[#ccd0d5]"
+            } focus:outline-none text-base`}
+          />
+          {errors.password && (
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              <ErrorIcon />
+            </div>
+          )}
+        </div>
 
         <div className="row-start-4 row-end-5 col-start-1 col-end-3">
           <label htmlFor="gender" className="text-[#606770] text-xs">
@@ -119,32 +138,39 @@ const Register = ({ dialogRef }) => {
               <input
                 className="p-3"
                 type="radio"
-                name="gender"
                 id="female"
                 value="female"
-                onChange={handleGenderChange}
+                {...register("gender")}
               />
             </div>
 
-            <div className="flex items-center w-32 h-9 border border-[#ccd0d5] rounded-md px-3 justify-between">
+            <div
+              className={`flex items-center w-32 h-9 rounded-md px-3 justify-between border ${
+                errors.gender ? "border-red-500" : "border-[#ccd0d5]"
+              }`}
+            >
               <label htmlFor="male">Male</label>
               <input
                 type="radio"
-                name="gender"
                 id="male"
                 value="male"
-                onChange={handleGenderChange}
+                onClick={() => setShowCustomGender(false)}
+                {...register("gender")}
               />
             </div>
 
-            <div className="flex items-center w-32 h-9 border border-[#ccd0d5] rounded-md px-3 justify-between">
+            <div
+              className={`flex items-center w-32 h-9 rounded-md px-3 justify-between border ${
+                errors.gender ? "border-red-500" : "border-[#ccd0d5]"
+              }`}
+            >
               <label htmlFor="custom">Custom</label>
               <input
                 type="radio"
-                name="gender"
                 id="custom"
                 value="custom"
-                onChange={handleGenderChange}
+                {...register("gender")}
+                onChange={(e) => setShowCustomGender(e.target.checked)}
               />
             </div>
           </div>
@@ -152,6 +178,7 @@ const Register = ({ dialogRef }) => {
 
         {showCustomGender && (
           <input
+            {...register("gender")}
             type="text"
             placeholder="Gender (optional)"
             className="row-start-5 row-end-5 col-start-1 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border border-[#ccd0d5] focus:outline-none text-base"
