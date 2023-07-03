@@ -110,3 +110,42 @@ export const createUser = async (req, res) => {
     res.status(500).json({ message: "Error creating user." });
   }
 };
+
+export const verifyUser = async (req, res) => {
+  try {
+    const { token, email } = req.body;
+
+    const existingUser = await EmailToken.findOne({ email });
+
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    if (existingUser.token === token) {
+      const updatedUser = await User.findOneAndUpdate(
+        { email },
+        { verified: true },
+        { new: true }
+      );
+
+      return res.status(200).json({
+        success: true,
+        message: "User verified successfully.",
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid token.",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Error verifying user.",
+    });
+  }
+};
