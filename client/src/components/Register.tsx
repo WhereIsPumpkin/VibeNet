@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { ErrorIcon } from "./icons.tsx";
 
 const Register = ({ dialogRef }) => {
+  const navigate = useNavigate();
   const [showCustomGender, setShowCustomGender] = useState(false);
 
   const schema = yup.object().shape({
@@ -19,17 +22,18 @@ const Register = ({ dialogRef }) => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("/api/register", data);
+      console.log(response.data);
 
-  const gender = watch("gender");
-
-  console.log(gender);
-
-  const onSubmit = (data) => {
-    console.log(data);
+      navigate("/verification", { state: { email: data.email } });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
