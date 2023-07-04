@@ -16,6 +16,11 @@ const Register = ({ dialogRef }) => {
     email: yup.string().email().required(),
     password: yup.string().min(6).max(20).required(),
     gender: yup.string().required(),
+    customGender: yup.string().when("gender", {
+      is: "custom",
+      then: (schema) => schema.required(""),
+      otherwise: (schema) => schema.notRequired(),
+    }),
   });
 
   const {
@@ -132,57 +137,63 @@ const Register = ({ dialogRef }) => {
           <label htmlFor="gender" className="text-[#606770] text-xs">
             Gender:
           </label>
+
           <div className="flex gap-x-4 w-full justify-between">
-            <div
+            <label
+              htmlFor="female"
               className={`border ${
                 errors.gender ? "border-red-500" : "border-[#ccd0d5]"
               } flex items-center w-32 h-9 rounded-md px-3 justify-between`}
             >
-              <label htmlFor="female">Female</label>
+              Female
               <input
                 className="p-3"
                 type="radio"
                 id="female"
                 value="female"
                 {...register("gender")}
+                onChange={() => setShowCustomGender(false)}
               />
-            </div>
+            </label>
 
-            <div
+            <label
+              htmlFor="male"
               className={`flex items-center w-32 h-9 rounded-md px-3 justify-between border ${
                 errors.gender ? "border-red-500" : "border-[#ccd0d5]"
               }`}
             >
-              <label htmlFor="male">Male</label>
+              Male
               <input
                 type="radio"
                 id="male"
                 value="male"
-                onClick={() => setShowCustomGender(false)}
                 {...register("gender")}
+                onChange={() => setShowCustomGender(false)}
               />
-            </div>
+            </label>
 
-            <div
+            <label
+              htmlFor="custom"
               className={`flex items-center w-32 h-9 rounded-md px-3 justify-between border ${
                 errors.gender ? "border-red-500" : "border-[#ccd0d5]"
               }`}
             >
-              <label htmlFor="custom">Custom</label>
+              Custom
               <input
+                value="custom"
                 type="radio"
                 id="custom"
-                value="custom"
                 {...register("gender")}
                 onChange={(e) => setShowCustomGender(e.target.checked)}
+                checked={showCustomGender}
               />
-            </div>
+            </label>
           </div>
         </div>
 
         {showCustomGender && (
           <input
-            {...register("gender")}
+            {...register("customGender")}
             type="text"
             placeholder="Gender (optional)"
             className="row-start-5 row-end-5 col-start-1 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border border-[#ccd0d5] focus:outline-none text-base"
