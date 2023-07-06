@@ -1,16 +1,16 @@
 import axios from "axios";
 import Verification from "./pages/Verification";
-import { Route, Routes, Navigate } from "react-router-dom";
-import Login from "./pages/Login";
+import { Route, Routes } from "react-router-dom";
+import ProfileRoutes from "./ProfileRoutes.tsx";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:6060";
-  axios.defaults.withCredentials = false;
+  axios.defaults.withCredentials = true;
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<ProfileRoutes />} />
         <Route path="/verification" element={<Verification />} />
       </Routes>
     </>

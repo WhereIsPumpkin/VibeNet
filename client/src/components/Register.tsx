@@ -6,7 +6,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { ErrorIcon } from "./icons.tsx";
 
-const Register = ({ dialogRef }) => {
+interface RegisterProps {
+  dialogRef: React.RefObject<HTMLDialogElement>;
+}
+
+interface FormData {
+  name: string;
+  lastName: string;
+  email: string;
+  password: string;
+  gender: string;
+  customGender?: string;
+}
+
+const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
   const navigate = useNavigate();
   const [showCustomGender, setShowCustomGender] = useState(false);
 
@@ -30,7 +43,7 @@ const Register = ({ dialogRef }) => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FormData) => {
     try {
       const response = await axios.post("/api/register", data);
       console.log(response.data);

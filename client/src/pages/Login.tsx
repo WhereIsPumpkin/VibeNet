@@ -1,8 +1,24 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Register from "../components/Register";
 
 const Login = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post("/api/login", { email, password });
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="bg-[#f0f2f5] w-screen h-screen flex items-center font-rubik">
@@ -16,16 +32,20 @@ const Login = () => {
         </div>
 
         <div className="bg-white p-5 w-96 rounded-lg shadow-custom">
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
               className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877f2]"
               placeholder="Email"
               type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
             />
             <input
               className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877f2]"
               placeholder="Password"
               type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
             />
             <button
               type="submit"
