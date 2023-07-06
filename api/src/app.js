@@ -10,13 +10,20 @@ import {
 } from "./controllers/UserController.js";
 import cors from "cors";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 dotenv.config();
 connect();
 
-app.use(cors());
+let corsOptions = {
+  origin: ["http://localhost:5173", "http://localhost:6060"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 app.use(express.json());
@@ -24,7 +31,9 @@ app.use(express.json());
 app.post("/api/register", createUser);
 app.post("/api/verify", verifyUser);
 app.post("/api/login", loginUser);
-app.post("/api/profile", getProfile);
+
+app.get("/api/profile", getProfile);
+
 app.use("/", ...swaggerMiddleware);
 
 app.listen(6060, () => {

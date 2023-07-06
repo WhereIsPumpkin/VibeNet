@@ -190,6 +190,7 @@ export const loginUser = async (req, res) => {
 
 export const getProfile = async (req, res) => {
   const token = req.cookies?.token;
+
   if (token) {
     jwt.verify(token, jwtSecret, {}, (err, userData) => {
       if (err) throw err;
