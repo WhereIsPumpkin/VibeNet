@@ -1,7 +1,8 @@
 import User from "../models/UserModel.js";
 import EmailToken from "../models/EmailToken.js";
 import nodemailer from "nodemailer";
-import crypto from "crypto";
+import jwt from "jsonwebtoken";
+import bycript from "bcryptjs";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -13,6 +14,10 @@ let transporter = nodemailer.createTransport({
     pass: process.env.AUTH_PASSWORD,
   },
 });
+
+const bycriptSalt = bycript.genSaltSync(10);
+
+const jwtSecret = process.env.JWT_SECRET;
 
 export const createUser = async (req, res) => {
   try {
@@ -29,11 +34,13 @@ export const createUser = async (req, res) => {
         .json({ message: "A user with this email already exists." });
     }
 
+    const hashPassword = bycript.hashSync(password, bycriptSalt);
+
     const newUser = new User({
       name,
       lastName,
       email,
-      password,
+      password: hashPassword,
       gender,
       verified: false,
     });
@@ -81,7 +88,7 @@ export const createUser = async (req, res) => {
                             <h1 style="margin: 1rem 0">Verify Your Email..</h1>
                             <p style="padding-bottom: 16px">Enter this code in the next 10 minutes to sign up:</p>
                             <div
-                              style="padding: 12px 24px; border-radius: 4px; color: black; display: inline-block;margin: 0.5rem 0; width: 100%; border: 1px solid rgba(82,82,128,0.18); text-align:center; font-size: 60px; font-weight: 600;">
+                              style="padding: 12px 24px; border-radius: 4px; color: black; display: inline-block;margin: 0.5rem 0; border: 1px solid rgba(82,82,128,0.18); text-align:center; font-size: 60px; font-weight: 600;">
                               ${token}</div>
       
                             <p style="padding-bottom: 16px"> If you didn't request this code, you can safely ignore this email. Someone else might have
@@ -131,6 +138,8 @@ export const verifyUser = async (req, res) => {
         { new: true }
       );
 
+      await EmailToken.findOneAndDelete({ email });
+
       return res.status(200).json({
         success: true,
         message: "User verified successfully.",
@@ -147,5 +156,46 @@ export const verifyUser = async (req, res) => {
       success: false,
       message: "Error verifying user.",
     });
+  }
+};
+
+export const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      const passOk = bycript.compareSync(password, existingUser.password);
+      if (passOk) {
+        const payload = {
+          name: existingUser.name,
+          lastName: existingUser.lastName,
+          email: existingUser.email,
+          gender: existingUser.gender,
+        };
+        const token = jwt.sign(payload, jwtSecret);
+        res.cookie("token", token, { sameSite: "none", secure: true });
+        res.status(200).json({ message: "Login successful" });
+      } else {
+        return res.status(400).json({ message: "Invalid email or password" });
+      }
+    } else {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getProfile = async (req, res) => {
+  const token = req.cookies?.token;
+  if (token) {
+    jwt.verify(token, jwtSecret, {}, (err, userData) => {
+      if (err) throw err;
+      res.json(userData);
+    });
+  } else {
+    res.status(401).json("no token");
   }
 };

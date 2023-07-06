@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: VibeNet API 🗃️
+  title: VibeNet API 💬
   description: VibeNet system
   version: 1.0.0
 
@@ -51,3 +51,69 @@ paths:
           description: A user with this email already exists
         "500":
           description: Error creating user
+  /api/verify:
+    post:
+      tags:
+        - User
+      summary: Verify user
+      description: Verifies the user's email using a token. check your email for the verification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: The verification token
+                  example: "abcd1234"
+                email:
+                  type: string
+                  format: email
+                  description: The email of the user
+                  example: "johndoe@example.com"
+      responses:
+        "200":
+          description: User verified successfully
+        "401":
+          description: Invalid token
+        "404":
+          description: User not found
+        "500":
+          description: Error verifying user
+  /api/login:
+    post:
+      tags:
+        - User
+      summary: User login
+      description: Logs in a user with the provided credentials
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: The email of the user
+                  example: "johndoe@example.com"
+                password:
+                  type: string
+                  format: password
+                  description: The password of the user
+                  example: "SecurePassword123"
+      responses:
+        "200":
+          description: User logged in successfully
+          headers:
+            Set-Cookie:
+              description: The authentication token cookie
+              schema:
+                type: string
+        "400":
+          description: Invalid email or password
+        "500":
+          description: Server error

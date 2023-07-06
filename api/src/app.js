@@ -2,7 +2,12 @@ import express from "express";
 import connect from "./database/mongo.js";
 import dotenv from "dotenv";
 import swaggerMiddleware from "./swagger-middleware.js";
-import { createUser, verifyUser } from "./controllers/UserController.js";
+import {
+  createUser,
+  verifyUser,
+  loginUser,
+  getProfile,
+} from "./controllers/UserController.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 
@@ -18,6 +23,8 @@ app.use(express.json());
 
 app.post("/api/register", createUser);
 app.post("/api/verify", verifyUser);
+app.post("/api/login", loginUser);
+app.post("/api/profile", getProfile);
 app.use("/", ...swaggerMiddleware);
 
 app.listen(6060, () => {
