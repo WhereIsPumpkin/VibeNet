@@ -21,17 +21,24 @@ const jwtSecret = process.env.JWT_SECRET;
 
 export const createUser = async (req, res) => {
   try {
-    const { name, lastName, email, password, gender } = req.body;
+    const { name, lastName, email, password, gender, username } = req.body;
 
-    if (!name || !lastName || !email || !password || !gender) {
+    if (!name || !lastName || !email || !password || !gender || !username) {
       return res.status(400).json({ message: "Please enter all the fields." });
     }
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    const existingUserEmail = await User.findOne({ email });
+    if (existingUserEmail) {
       return res
         .status(409)
         .json({ message: "A user with this email already exists." });
+    }
+
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res
+        .status(409)
+        .json({ message: "A user with this username already exists." });
     }
 
     const hashPassword = bycript.hashSync(password, bycriptSalt);
@@ -42,6 +49,7 @@ export const createUser = async (req, res) => {
       email,
       password: hashPassword,
       gender,
+      username,
       verified: false,
     });
 
@@ -171,6 +179,7 @@ export const loginUser = async (req, res) => {
           name: existingUser.name,
           lastName: existingUser.lastName,
           email: existingUser.email,
+          username: existingUser.username,
           gender: existingUser.gender,
         };
         const token = jwt.sign(payload, jwtSecret);
