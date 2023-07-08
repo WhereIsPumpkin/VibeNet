@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useStore } from "./app/userStore.tsx";
 import Login from "./pages/Login.tsx";
-import axios from "axios";
 import HomePage from "./pages/HomePage.tsx";
 
 const Routes = () => {
@@ -16,7 +15,6 @@ const Routes = () => {
     return <HomePage />;
   }
 
-  console.log("no");
   return <Login />;
 };
 

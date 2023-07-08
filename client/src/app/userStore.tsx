@@ -6,14 +6,18 @@ interface userState {
     name: string;
     lastName: string;
     gender: string;
+    username: string;
   };
   getProfile: () => void;
+  isLoggedIn: boolean;
+  setLoggedIn: (isLoggedIn: boolean) => void;
 }
 
 export const useStore = create<userState>((set) => ({
   profile: {
     name: "",
     lastName: "",
+    username: "",
     gender: "",
   },
   getProfile: async () => {
@@ -24,4 +28,6 @@ export const useStore = create<userState>((set) => ({
       console.error(error);
     }
   },
+  isLoggedIn: false,
+  setLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
 }));

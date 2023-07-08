@@ -29,6 +29,7 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
     email: yup.string().email().required(),
     password: yup.string().min(6).max(20).required(),
     gender: yup.string().required(),
+    username: yup.string().required(),
     customGender: yup.string().when("gender", {
       is: "custom",
       then: (schema) => schema.required(""),
@@ -132,6 +133,21 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
         </div>
         <div className="row-start-3 row-end-4 col-start-1 col-end-3 relative">
           <input
+            {...register("username")}
+            type="text"
+            placeholder="Username"
+            className={` w-full p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+              errors.username ? "border-red-500" : "border-[#ccd0d5]"
+            } focus:outline-none text-base`}
+          />
+          {errors.username && (
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              <ErrorIcon />
+            </div>
+          )}
+        </div>
+        <div className="row-start-4 row-end-5 col-start-1 col-end-3 relative">
+          <input
             {...register("password")}
             type="password"
             placeholder="New Password"
@@ -146,7 +162,7 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
           )}
         </div>
 
-        <div className="row-start-4 row-end-5 col-start-1 col-end-3">
+        <div className="row-start-5 row-end-6 col-start-1 col-end-3">
           <label htmlFor="gender" className="text-[#606770] text-xs">
             Gender:
           </label>

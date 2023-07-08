@@ -1,20 +1,17 @@
 import { useRef, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import Register from "../components/Register";
 
 const Login = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       await axios.post("/api/login", { email, password });
-      navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

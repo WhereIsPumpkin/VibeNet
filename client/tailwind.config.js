@@ -1,8 +1,13 @@
+import tailwindcssAnimated from "tailwindcss-animated";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontSize: {
+        basicFont: "0.9375rem",
+      },
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],
       },
@@ -14,5 +19,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [tailwindcssAnimated],
 };
