@@ -23,11 +23,13 @@ export const createUser = async (req, res) => {
   try {
     const { name, lastName, email, password, gender, username } = req.body;
 
+    const userEmail = req.body.email.toLowerCase();
+    const existingUserEmail = await User.findOne({ email: userEmail });
+
     if (!name || !lastName || !email || !password || !gender || !username) {
       return res.status(400).json({ message: "Please enter all the fields." });
     }
 
-    const existingUserEmail = await User.findOne({ email });
     if (existingUserEmail) {
       return res
         .status(409)
@@ -46,7 +48,7 @@ export const createUser = async (req, res) => {
     const newUser = new User({
       name,
       lastName,
-      email,
+      email: email.toLowerCase(),
       password: hashPassword,
       gender,
       username,
@@ -56,8 +58,6 @@ export const createUser = async (req, res) => {
     await newUser.save();
 
     const token = Math.floor(100000 + Math.random() * 900000);
-
-    console.log(token);
 
     await new EmailToken({ token, email }).save();
 
@@ -170,7 +170,8 @@ export const verifyUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const existingUser = await User.findOne({ email });
+    const lowercaseEmail = email.toLowerCase();
+    const existingUser = await User.findOne({ email: lowercaseEmail });
 
     if (existingUser) {
       const passOk = bycript.compareSync(password, existingUser.password);
