@@ -225,11 +225,11 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
             {...register("customGender")}
             type="text"
             placeholder="Gender (optional)"
-            className="row-start-5 row-end-5 col-start-1 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border border-[#ccd0d5] focus:outline-none text-base"
+            className="row-start-6 row-end-7 col-start-1 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border border-[#ccd0d5] focus:outline-none text-base"
           />
         )}
 
-        <button className="row-start-6 row-end-6 col-start-1 col-end-3 bg-[#00a400] text-white w-48 h-9 font-semibold rounded-md mx-auto mt-4">
+        <button className="row-start-7 row-end-8 col-start-1 col-end-3 bg-[#00a400] text-white w-48 h-9 font-semibold rounded-md mx-auto mt-4">
           Sign Up
         </button>
       </form>
