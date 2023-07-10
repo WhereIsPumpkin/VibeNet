@@ -5,8 +5,13 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      width: {
+        21: "5.3125rem",
+      },
       fontSize: {
         basicFont: "0.9375rem",
+        l: "1.0625rem",
+        xxs: "0.8125rem",
       },
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],

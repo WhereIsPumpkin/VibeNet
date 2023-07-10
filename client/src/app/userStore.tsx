@@ -11,6 +11,7 @@ interface userState {
   getProfile: () => void;
   isLoggedIn: boolean;
   setLoggedIn: (isLoggedIn: boolean) => void;
+  updateName: (name: string) => void;
 }
 
 export const useStore = create<userState>((set) => ({
@@ -30,4 +31,6 @@ export const useStore = create<userState>((set) => ({
   },
   isLoggedIn: false,
   setLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
+  updateName: (name) =>
+    set((state) => ({ profile: { ...state.profile, name } })),
 }));
