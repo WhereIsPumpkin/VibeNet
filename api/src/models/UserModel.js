@@ -33,6 +33,18 @@ const userSchema = new Schema({
   verified: {
     type: Schema.Types.Boolean,
   },
+  registrationDate: {
+    type: Schema.Types.Date,
+  },
+  bio: {
+    type: Schema.Types.String,
+  },
+  location: {
+    type: Schema.Types.String,
+  },
+  website: {
+    type: Schema.Types.String,
+  },
 });
 
 const User = model("User", userSchema);

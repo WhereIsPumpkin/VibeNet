@@ -53,6 +53,10 @@ export const createUser = async (req, res) => {
       gender,
       username,
       verified: false,
+      registrationDate: new Date(),
+      bio: "",
+      location: "",
+      website: "",
     });
 
     await newUser.save();
@@ -182,6 +186,9 @@ export const loginUser = async (req, res) => {
           email: existingUser.email,
           username: existingUser.username,
           gender: existingUser.gender,
+          bio: existingUser.bio,
+          location: existingUser.location,
+          website: existingUser.website,
         };
         const token = jwt.sign(payload, jwtSecret);
         res.cookie("token", token, { sameSite: "none", secure: true });
