@@ -98,7 +98,7 @@ const SettingsProfile = () => {
 
       <div
         className="bg-[#CFD2DE] w-screen h-32 grid items-center justify-center bg-no-repeat bg-center"
-        style={{ backgroundImage: `url(${coverImage})` }}
+        style={{ backgroundImage: `url(${coverImage || profile.coverPic} )` }}
       >
         <div className="bg-black/50 w-11 h-11 flex items-center justify-center rounded-full">
           <button onClick={() => fileInputRef.current?.click()}>
@@ -131,7 +131,7 @@ const SettingsProfile = () => {
         <input
           type="file"
           className="hidden"
-          accept="image/png, image/jpeg"
+          accept="image/png, image/jpeg, image/jpg"
           ref={profileFileInputRef}
           onChange={handleProfileFileChange}
         />

@@ -7,7 +7,7 @@ interface SideBarProps {
   dialogRef: React.RefObject<HTMLDialogElement>;
 }
 
-const SideBar: React.FC<SideBarProps> = ({ profPic, dialogRef }) => {
+const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
   const navigate = useNavigate();
   const { profile } = useStore();
   return (
@@ -19,7 +19,7 @@ const SideBar: React.FC<SideBarProps> = ({ profPic, dialogRef }) => {
             dialogRef.current ? dialogRef.current.close() : null;
           }}
         >
-          <CloseIcon />
+          <CloseIcon color={"currentColor"} />
         </div>
       </div>
       <div>
