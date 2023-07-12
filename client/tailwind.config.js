@@ -22,6 +22,9 @@ export default {
       gridTemplateColumns: {
         custom: "repeat(2, 194px)",
       },
+      borderRadius: {
+        "2xxl": "1.25rem",
+      },
     },
   },
   plugins: [tailwindcssAnimated],
