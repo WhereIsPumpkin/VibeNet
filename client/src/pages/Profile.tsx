@@ -1,14 +1,22 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useStore } from "../app/userStore";
 import { useEffect } from "react";
-import { GoBackIcon } from "../components/icons";
-import profPic from "../assets/blank-profile-picture-973460_960_720.webp";
+import {
+  GoBackIcon,
+  CalendarIcon,
+  LocationIcon,
+  LinkIcon,
+} from "../components/icons";
 
 const Profile = () => {
   const { username } = useParams();
   const navigate = useNavigate();
   const { profile } = useStore();
   const getProfile = useStore((state) => state.getProfile);
+  const date = new Date(profile.registrationDate);
+
+  const month = date.toLocaleString("en-US", { month: "long" });
+  const year = date.getFullYear();
 
   useEffect(() => {
     getProfile();
@@ -20,7 +28,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col font-rubik">
       <div className="flex items-center gap-9 px-4 h-14">
         <div onClick={() => navigate(-1)}>
           <GoBackIcon />
@@ -33,17 +41,61 @@ const Profile = () => {
         </div>
       </div>
       <div className="bg-[#CFD9DE] w-screen h-32"></div>
-      <div className="px-4">
+
+      <div className="px-4 flex flex-col gap-2">
         <div className="flex justify-between items-center">
-          <div className="w-20 h-20 rounded-full overflow-hidden border border-white -mt-10">
-            <img src={profPic} />
+          <div className="w-21 h-21 rounded-full overflow-hidden border-2 border-white -mt-10">
+            <img src={`http://localhost:6060${profile.profilePic}`} />
           </div>
           <button
             onClick={() => navigate("/settings/profile")}
-            className="border border-[#CFD9DE] rounded-2xl text-[#0F1319] font-semibold px-3 mt-3 py-[0.625rem] max-h-9 flex items-center"
+            className="border border-[#CFD9DE] rounded-2xl text-[#0F1319] font-semibold px-3 mt-3 py-[0.625rem] max-h-9 flex items-center text-basicFont"
           >
             Edit profile
           </button>
+        </div>
+
+        <div>
+          <h2 className="text-[#0F1419] text-xl font-bold">
+            {profile.name} {profile.lastName}
+          </h2>
+          <span className="text-[#536471] text-basicFont">
+            @{profile.username}
+          </span>
+        </div>
+
+        <div className="text-[#536471] text-basicFont">{profile.bio}</div>
+
+        <div className="flex gap-2 items-center">
+          <div className="flex gap-1 text-[#536471] text-basicFont items-center">
+            <LocationIcon /> {profile.location}
+          </div>
+          <div className="flex gap-1 items-center">
+            <LinkIcon />{" "}
+            <a
+              className="text-[#1D98F0] text-basicFont max-w-[13rem] truncate"
+              href={profile.website}
+              target="_blank"
+            >
+              {profile.website}
+            </a>
+          </div>
+        </div>
+
+        <div className="flex gap-1">
+          <CalendarIcon />
+          <span className="text-[#536471] text-basicFont ">
+            Joined {month} {year}
+          </span>
+        </div>
+
+        <div className="flex gap-3 text-[#536471] text-sm">
+          <span>
+            <b className="text-black">0</b> Following
+          </span>
+          <span>
+            <b className="text-black">0</b> Followers
+          </span>
         </div>
       </div>
     </div>

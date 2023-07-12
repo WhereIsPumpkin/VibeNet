@@ -12,7 +12,7 @@ const HomePage = () => {
       <div className="w-full flex px-4 h-14 items-center justify-between border-b border-[#BDC5CD] relative">
         <div className="w-[150px]">
           <img
-            src={profPic}
+            src={`http://localhost:6060${profile.profilePic}`}
             alt="profile pic"
             className="w-8 h-8 rounded-full"
             onClick={() =>
@@ -26,7 +26,7 @@ const HomePage = () => {
       </div>
       <dialog
         ref={dialogRef}
-        className="m-0 p-0 min-h-screen focus:outline-none  animate-fade-right animate-duration-100 animate-ease-linear"
+        className="m-0 p-0 min-h-screen focus:outline-none  animate-fade-right animate-duration-100 animate-ease-linear min-w-[280px]"
       >
         <SideBar profPic={profPic} dialogRef={dialogRef} />
       </dialog>

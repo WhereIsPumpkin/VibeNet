@@ -12,8 +12,8 @@ const SideBar: React.FC<SideBarProps> = ({ profPic, dialogRef }) => {
   const { profile } = useStore();
   return (
     <div className="px-4 py-4 ">
-      <div className="flex items-center justify-between min-w-[280px]">
-        <h1 className="font-semibold">Account info</h1>
+      <div className="flex items-center justify-between max-w-[280px]">
+        <h1 className="f font-medium text-l">Account info</h1>
         <div
           onClick={() => {
             dialogRef.current ? dialogRef.current.close() : null;
@@ -24,7 +24,7 @@ const SideBar: React.FC<SideBarProps> = ({ profPic, dialogRef }) => {
       </div>
       <div>
         <img
-          src={profPic}
+          src={`http://localhost:6060${profile.profilePic}`}
           alt="prof pic"
           className="w-10 h-10 rounded-full mt-6"
         />
