@@ -40,7 +40,12 @@ const Profile = () => {
           <span className="text-[#546471] text-xxs">0 Tweets</span>
         </div>
       </div>
-      <div className="bg-[#CFD9DE] w-screen h-32"></div>
+      <div
+        style={{
+          backgroundImage: `url(http://localhost:6060${profile.coverPic})`,
+        }}
+        className="bg-[#CFD9DE] w-screen h-32 ceter bg-no-repeat bg-center"
+      ></div>
 
       <div className="px-4 flex flex-col gap-2">
         <div className="flex justify-between items-center">
