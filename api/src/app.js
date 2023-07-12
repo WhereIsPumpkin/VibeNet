@@ -1,16 +1,20 @@
 import express from "express";
 import connect from "./database/mongo.js";
 import dotenv from "dotenv";
-import swaggerMiddleware from "./swagger-middleware.js";
+import multer from "multer";
+import { authMiddleware } from "./middlewares/authMiddleware.js";
+import swaggerMiddleware from "./middlewares/swagger-middleware.js";
 import {
   createUser,
   verifyUser,
   loginUser,
   getProfile,
+  updateProfile,
 } from "./controllers/UserController.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import { upload, uploadFields } from "./config/multerConfig.js";
 
 const app = express();
 
@@ -31,9 +35,11 @@ app.use(express.json());
 app.post("/api/register", createUser);
 app.post("/api/verify", verifyUser);
 app.post("/api/login", loginUser);
+app.post("/api/update", authMiddleware, updateProfile);
 
 app.get("/api/profile", getProfile);
 
+app.use("/", express.static("./public"));
 app.use("/", ...swaggerMiddleware);
 
 app.listen(6060, () => {

@@ -45,6 +45,12 @@ const userSchema = new Schema({
   website: {
     type: Schema.Types.String,
   },
+  profilePic: {
+    type: Schema.Types.String,
+  },
+  coverPic: {
+    type: Schema.Types.String,
+  },
 });
 
 const User = model("User", userSchema);

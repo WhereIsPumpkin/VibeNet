@@ -51,12 +51,14 @@ export const createUser = async (req, res) => {
       email: email.toLowerCase(),
       password: hashPassword,
       gender,
-      username,
+      username: username.toLowerCase(),
       verified: false,
       registrationDate: new Date(),
       bio: "",
       location: "",
       website: "",
+      profilePic: "",
+      coverPic: "",
     });
 
     await newUser.save();
@@ -189,6 +191,9 @@ export const loginUser = async (req, res) => {
           bio: existingUser.bio,
           location: existingUser.location,
           website: existingUser.website,
+          registrationDate: existingUser.registrationDate,
+          coverPic: existingUser.coverPic,
+          profilePic: existingUser.profilePic,
         };
         const token = jwt.sign(payload, jwtSecret);
         res.cookie("token", token, { sameSite: "none", secure: true });
@@ -215,5 +220,46 @@ export const getProfile = async (req, res) => {
     });
   } else {
     res.status(401).json("no token");
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, lastName, bio, website, location } = req.body;
+
+    const userEmail = req.user.email;
+
+    // Get the profile and cover image files from the request
+    const profilePic = req.files.profilePic;
+    const coverPic = req.files.coverPic;
+
+    console.log(profilePic[0]);
+    console.log(profilePic[0].path);
+    // Generate the URLs of the saved profile and cover images
+    let profilePicUrl, coverPicUrl;
+    if (profilePic) {
+      profilePicUrl = profilePic[0].path.replace(/^public[\\/]/, "");
+      profilePicUrl = "/" + profilePicUrl.replace(/\\/g, "/");
+    }
+    if (coverPic) {
+      coverPicUrl = coverPic[0].path.replace(/^public[\\/]/, "");
+      coverPicUrl = "/" + coverPicUrl.replace(/\\/g, "/");
+    }
+
+    await User.findOneAndUpdate(
+      { email: userEmail },
+      {
+        name,
+        lastName,
+        bio,
+        website,
+        location,
+        ...(profilePicUrl && { profilePic: profilePicUrl }),
+        ...(coverPicUrl && { coverPic: coverPicUrl }),
+      }
+    );
+    res.status(200).json({ message: "Profile updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
