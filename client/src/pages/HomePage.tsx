@@ -1,16 +1,33 @@
 import { useStore } from "../app/userStore";
+import { usePostStore } from "../app/postSotre";
 import { useRef, useState, useEffect } from "react";
 import SideBar from "../components/SideBar";
 import profPic from "../assets/blank-profile-picture-973460_960_720.webp";
-import photoIcon from "../assets/PhotoIcon.png";
-import { MenuIcon, CloseIcon } from "../components/icons";
+import {
+  MenuIcon,
+  CloseIcon,
+  PhotoIcon,
+  DeleteIcon,
+  LikeIcon,
+  CommentIcon,
+  ShareIcon,
+} from "../components/icons";
+import axios from "axios";
+import moment from "moment";
 
 const HomePage = () => {
   const { profile } = useStore();
+  const { posts } = usePostStore();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState("");
   const [image, setImage] = useState<string | null>(null);
+  const postImageRef = useRef<HTMLInputElement>(null);
+
+  moment.fn.fromNow = function () {
+    const duration = moment().diff(this, "hours");
+    return duration + "h";
+  };
 
   useEffect(() => {
     if (textAreaRef.current) {
@@ -26,6 +43,31 @@ const HomePage = () => {
     }
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    if (text) {
+      formData.append("content", text);
+    }
+    if (postImageRef.current?.files && postImageRef.current.files[0]) {
+      formData.append("postImage", postImageRef.current.files[0]);
+    }
+    formData.append("author", profile.id);
+
+    try {
+      await axios.post("/api/posts/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("succesfully added");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log();
   return (
     <div className="relative font-rubik ">
       <div className="w-full flex px-4 h-14 items-center justify-between border-b border-[#BDC5CD] relative">
@@ -44,8 +86,8 @@ const HomePage = () => {
         </h1>
       </div>
 
-      <main className="bg-[#F0F2F5] h-screen py-5">
-        <div className=" bg-white  px-4">
+      <main className="bg-[#F0F2F5] h-full min-h-screen py-5 flex flex-col gap-4">
+        <div className=" bg-white  px-4 shadow-sm">
           <div className="flex gap-2  border-b border-[#E4E6EB]  py-3">
             <img
               src={`http://localhost:6060${profile.profilePic}`}
@@ -84,9 +126,13 @@ const HomePage = () => {
           )}
 
           <div className=" text-basicFont text-[#656768] flex items-center justify-center ">
-            <div className="w-full flex items-center justify-evenly py-3  ">
+            <form
+              onSubmit={handleSubmit}
+              className="w-full flex items-center justify-evenly py-3  "
+            >
               <input
                 type="file"
+                ref={postImageRef}
                 onChange={handleImageChange}
                 accept="image/png, image/jpeg, image/jpg"
                 className="hidden"
@@ -96,15 +142,82 @@ const HomePage = () => {
                 htmlFor="upload-button"
                 className="flex gap-2 items-center md:cursor-pointer"
               >
-                <img src={photoIcon} alt="photoIcon" /> Upload Photo
+                <PhotoIcon />
+                Add Photo
               </label>
 
-              <button className="bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2 px-7 rounded-full">
+              <button
+                type="submit"
+                className="bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2 px-7 rounded-full"
+              >
                 Vibe
               </button>
-            </div>
+            </form>
           </div>
         </div>
+
+        {posts.map((post, index) => (
+          <div className="bg-white px-4 py-3 shadow-sm flex gap-3" key={index}>
+            <img
+              src={`http://localhost:6060${post.author.profilePic}`}
+              alt="prof pic"
+              className="w-10 h-10 rounded-full"
+            />
+
+            <div className="flex flex-col w-full">
+              <div className="w-full flex gap-1 items-center">
+                <h2 className="flex-grow text-[#0F1419] text-basicFont font-semibold max-w-[7.8rem] truncate">
+                  {post.author.name} {post.author.lastName}
+                </h2>
+
+                <span className="flex-grow text-basicFont text-[#65676B] max-w-[7.5rem] truncate">
+                  @{post.author.username}
+                </span>
+
+                <div className="flex items-center gap-1 flex-grow">
+                  <span className="text-[#65676B] text-[10px]">·</span>
+
+                  <span className="text-basicFont text-[#65676B]">
+                    {moment(post.createdAt).fromNow(true)}
+                  </span>
+                </div>
+
+                <DeleteIcon />
+              </div>
+
+              <p className="text-[#050505]">{post.content}</p>
+
+              {post.postImage && (
+                <div className="mt-3 border border-[#CFD9DE] rounded-2xl overflow-hidden mb-4">
+                  <img
+                    src={`http://localhost:6060${post.postImage}`}
+                    alt="post image"
+                    className="w-full"
+                  />
+                </div>
+              )}
+
+              <hr />
+
+              <div className="pt-[0.625rem] px-2 flex justify-between items-center">
+                <div className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont">
+                  <LikeIcon />
+                  Like
+                </div>
+
+                <div className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont">
+                  <CommentIcon />
+                  Comment
+                </div>
+
+                <div className="flex gap-[0.3rem] items-center text-[#65676B]">
+                  <ShareIcon />
+                  Share
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </main>
 
       <dialog

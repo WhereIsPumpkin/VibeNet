@@ -3,6 +3,7 @@ import axios from "axios";
 
 interface userState {
   profile: {
+    id: string;
     name: string;
     lastName: string;
     gender: string;
@@ -26,6 +27,7 @@ interface userState {
 
 export const useStore = create<userState>((set) => ({
   profile: {
+    id: "",
     name: "",
     lastName: "",
     username: "",
@@ -40,7 +42,23 @@ export const useStore = create<userState>((set) => ({
   getProfile: async () => {
     try {
       const response = await axios.get("/api/profile");
-      set({ profile: response.data });
+      const data = response.data;
+      set((state) => ({
+        profile: {
+          ...state.profile,
+          id: data.id,
+          name: data.name,
+          lastName: data.lastName,
+          username: data.username,
+          gender: data.gender,
+          location: data.location,
+          website: data.website,
+          bio: data.bio,
+          registrationDate: data.registrationDate,
+          profilePic: data.profilePic,
+          coverPic: data.coverPic,
+        },
+      }));
     } catch (error) {
       console.error(error);
     }
