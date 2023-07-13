@@ -183,6 +183,7 @@ export const loginUser = async (req, res) => {
       const passOk = bycript.compareSync(password, existingUser.password);
       if (passOk) {
         const payload = {
+          id: existingUser._id,
           name: existingUser.name,
           lastName: existingUser.lastName,
           email: existingUser.email,
@@ -233,8 +234,6 @@ export const updateProfile = async (req, res) => {
     const profilePic = req.files.profilePic;
     const coverPic = req.files.coverPic;
 
-    console.log(profilePic[0]);
-    console.log(profilePic[0].path);
     // Generate the URLs of the saved profile and cover images
     let profilePicUrl, coverPicUrl;
     if (profilePic) {
@@ -258,6 +257,26 @@ export const updateProfile = async (req, res) => {
         ...(coverPicUrl && { coverPic: coverPicUrl }),
       }
     );
+
+    const updatedUser = await User.findOne({ email: userEmail });
+    const payload = {
+      id: updatedUser._id,
+      name: updatedUser.name,
+      lastName: updatedUser.lastName,
+      email: updatedUser.email,
+      username: updatedUser.username,
+      gender: updatedUser.gender,
+      bio: updatedUser.bio,
+      location: updatedUser.location,
+      website: updatedUser.website,
+      registrationDate: updatedUser.registrationDate,
+      coverPic: updatedUser.coverPic,
+      profilePic: updatedUser.profilePic,
+    };
+    const newToken = jwt.sign(payload, jwtSecret);
+
+    // Send the new token back to the client in a cookie
+    res.cookie("token", newToken, { sameSite: "none", secure: true });
     res.status(200).json({ message: "Profile updated successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -10,11 +10,12 @@ import {
   loginUser,
   getProfile,
   updateProfile,
-} from "./controllers/UserController.js";
+} from "./controllers/userController.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import { upload, uploadFields } from "./config/multerConfig.js";
+import { uploadFields } from "./config/multerConfig.js";
+import { createPost } from "./controllers/postController.js";
 
 const app = express();
 
@@ -35,7 +36,8 @@ app.use(express.json());
 app.post("/api/register", createUser);
 app.post("/api/verify", verifyUser);
 app.post("/api/login", loginUser);
-app.post("/api/update", authMiddleware, updateProfile);
+app.post("/api/update", uploadFields, authMiddleware, updateProfile);
+app.post("/api/posts/upload", uploadFields, createPost);
 
 app.get("/api/profile", getProfile);
 
