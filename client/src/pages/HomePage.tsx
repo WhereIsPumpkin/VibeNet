@@ -17,7 +17,7 @@ import moment from "moment";
 
 const HomePage = () => {
   const { profile } = useStore();
-  const { posts } = usePostStore();
+  const { posts, fetchPosts } = usePostStore();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState("");
@@ -61,7 +61,9 @@ const HomePage = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("succesfully added");
+      setText("");
+      setImage("");
+      fetchPosts();
     } catch (error) {
       console.error(error);
     }
@@ -147,8 +149,14 @@ const HomePage = () => {
               </label>
 
               <button
+                key={text + image}
+                disabled={!text && !image}
                 type="submit"
-                className="bg-[#1877F2] hover:bg-blue-700 text-white font-bold py-2 px-7 rounded-full"
+                className={`${
+                  !text && !image
+                    ? "bg-gray-400"
+                    : "bg-[#1877F2] hover:bg-blue-700"
+                } text-white font-bold py-2 px-7 rounded-full`}
               >
                 Vibe
               </button>
@@ -156,68 +164,90 @@ const HomePage = () => {
           </div>
         </div>
 
-        {posts.map((post, index) => (
-          <div className="bg-white px-4 py-3 shadow-sm flex gap-3" key={index}>
-            <img
-              src={`http://localhost:6060${post.author.profilePic}`}
-              alt="prof pic"
-              className="w-10 h-10 rounded-full"
-            />
+        <div className="bg-[#F0F2F5] flex gap-4 flex-col-reverse">
+          {posts.map((post, index) => (
+            <div
+              className="bg-white px-4 py-3 shadow-sm flex gap-3"
+              key={index}
+            >
+              <img
+                src={`http://localhost:6060${post.author.profilePic}`}
+                alt="prof pic"
+                className="w-10 h-10 rounded-full"
+              />
 
-            <div className="flex flex-col w-full">
-              <div className="w-full flex gap-1 items-center">
-                <h2 className="flex-grow text-[#0F1419] text-basicFont font-semibold max-w-[7.8rem] truncate">
-                  {post.author.name} {post.author.lastName}
-                </h2>
+              <div className="flex flex-col w-full">
+                <div className="w-full flex gap-1 items-center">
+                  <h2 className="flex-grow text-[#0F1419] text-basicFont font-semibold max-w-[7.8rem] truncate">
+                    {post.author.name} {post.author.lastName}
+                  </h2>
 
-                <span className="flex-grow text-basicFont text-[#65676B] max-w-[7.5rem] truncate">
-                  @{post.author.username}
-                </span>
-
-                <div className="flex items-center gap-1 flex-grow">
-                  <span className="text-[#65676B] text-[10px]">·</span>
-
-                  <span className="text-basicFont text-[#65676B]">
-                    {moment(post.createdAt).fromNow(true)}
+                  <span className="flex-grow text-basicFont text-[#65676B] max-w-[7.5rem] truncate">
+                    @{post.author.username}
                   </span>
+
+                  <div className="flex items-center gap-1 flex-grow">
+                    <span className="text-[#65676B] text-[10px]">·</span>
+
+                    <span className="text-basicFont text-[#65676B]">
+                      {moment(post.createdAt).fromNow(true)}
+                    </span>
+                  </div>
+
+                  <div
+                    onClick={async () => {
+                      try {
+                        await axios.delete(`/api/posts/delete/${post._id}`);
+                        fetchPosts();
+                      } catch (err) {
+                        console.log(err);
+                      }
+                    }}
+                  >
+                    <DeleteIcon />
+                  </div>
                 </div>
 
-                <DeleteIcon />
-              </div>
+                <p
+                  className={`text-[#050505] ${
+                    !post.postImage ? "mb-4" : null
+                  }`}
+                >
+                  {post.content}
+                </p>
 
-              <p className="text-[#050505]">{post.content}</p>
+                {post.postImage && (
+                  <div className="mt-3 border border-[#CFD9DE] rounded-2xl overflow-hidden mb-4">
+                    <img
+                      src={`http://localhost:6060${post.postImage}`}
+                      alt="post image"
+                      className="w-full"
+                    />
+                  </div>
+                )}
 
-              {post.postImage && (
-                <div className="mt-3 border border-[#CFD9DE] rounded-2xl overflow-hidden mb-4">
-                  <img
-                    src={`http://localhost:6060${post.postImage}`}
-                    alt="post image"
-                    className="w-full"
-                  />
-                </div>
-              )}
+                <hr />
 
-              <hr />
+                <div className="pt-[0.625rem] px-2 flex justify-between items-center">
+                  <div className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont">
+                    <LikeIcon />
+                    Like
+                  </div>
 
-              <div className="pt-[0.625rem] px-2 flex justify-between items-center">
-                <div className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont">
-                  <LikeIcon />
-                  Like
-                </div>
+                  <div className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont">
+                    <CommentIcon />
+                    Comment
+                  </div>
 
-                <div className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont">
-                  <CommentIcon />
-                  Comment
-                </div>
-
-                <div className="flex gap-[0.3rem] items-center text-[#65676B]">
-                  <ShareIcon />
-                  Share
+                  <div className="flex gap-[0.3rem] items-center text-[#65676B]">
+                    <ShareIcon />
+                    Share
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </main>
 
       <dialog
