@@ -15,7 +15,11 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { uploadFields } from "./config/multerConfig.js";
-import { createPost, getPosts } from "./controllers/postController.js";
+import {
+  createPost,
+  getPosts,
+  deletePost,
+} from "./controllers/postController.js";
 
 const app = express();
 
@@ -41,6 +45,8 @@ app.post("/api/posts/upload", uploadFields, createPost);
 
 app.get("/api/profile", getProfile);
 app.get("/api/posts/getPosts", getPosts);
+
+app.delete("/api/posts/delete/:id", deletePost);
 
 app.use("/", express.static("./public"));
 app.use("/", ...swaggerMiddleware);

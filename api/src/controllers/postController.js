@@ -45,3 +45,13 @@ export const getPosts = async (req, res) => {
       .json({ message: "An error occurred while fetching the posts" });
   }
 };
+
+export const deletePost = async (req, res) => {
+  const postId = req.params.id;
+  try {
+    await Post.deleteOne({ _id: postId });
+    return res.status(200).json({ message: "Post deleted successfully" });
+  } catch (err) {
+    return res.status(500).json({ err, message: "Error deleting post" });
+  }
+};
