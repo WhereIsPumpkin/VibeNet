@@ -30,3 +30,18 @@ export const createPost = async (req, res) => {
       .json({ message: "An error occurred while creating the post" });
   }
 };
+
+export const getPosts = async (req, res) => {
+  try {
+    // query the database for all posts
+    const posts = await Post.find().populate("author");
+
+    // send a success response with the posts
+    res.status(200).json({ posts });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ message: "An error occurred while fetching the posts" });
+  }
+};
