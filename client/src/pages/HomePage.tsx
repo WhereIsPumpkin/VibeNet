@@ -64,6 +64,10 @@ const HomePage = () => {
       setText("");
       setImage("");
       fetchPosts();
+      if (document.getElementById("upload-button")) {
+        (document.getElementById("upload-button") as HTMLInputElement).value =
+          "";
+      }
     } catch (error) {
       console.error(error);
     }
