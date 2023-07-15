@@ -19,6 +19,8 @@ import {
   createPost,
   getPosts,
   deletePost,
+  likePost,
+
 } from "./controllers/postController.js";
 
 const app = express();
@@ -47,6 +49,9 @@ app.get("/api/profile", getProfile);
 app.get("/api/posts/getPosts", getPosts);
 
 app.delete("/api/posts/delete/:id", deletePost);
+
+app.post("/api/posts/like/:postId/:userId", likePost);
+
 
 app.use("/", express.static("./public"));
 app.use("/", ...swaggerMiddleware);
