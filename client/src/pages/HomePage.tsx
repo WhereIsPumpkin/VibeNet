@@ -233,8 +233,31 @@ const HomePage = () => {
                 <hr />
 
                 <div className="pt-[0.625rem] px-2 flex justify-between items-center">
-                  <div className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont">
-                    <LikeIcon />
+                  <div
+                    onClick={async () => {
+                      const postId = post._id;
+                      const userId = profile.id;
+                      try {
+                        const resp = await axios.post(
+                          `/api/posts/like/${postId}/${userId}`
+                        );
+                        console.log(resp);
+                        fetchPosts()
+                      } catch (error) {
+                        console.error(error);
+                      }
+                    }}
+                    className={`flex gap-[0.3rem] items-center text-basicFont ${
+                      post.likes.includes(profile.id) ? "text-[#1877F2]" : "text-[#65676B]"
+                    }`}
+                    
+                  >
+                    <LikeIcon
+                      color={
+                        post.likes.includes(profile.id) ? "#1877F2" : "#65676B"
+                      }
+                    />{" "}
+                    
                     Like
                   </div>
 

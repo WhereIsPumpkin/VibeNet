@@ -215,14 +215,18 @@ export const DeleteIcon = () => {
   );
 };
 
-export const LikeIcon = () => {
+interface LikeIconProps {
+  color?: string;
+}
+
+export const LikeIcon: React.FC<LikeIconProps> = ({ color }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke="#65676B"
+      stroke={color}
       className="w-7 h-6"
     >
       <path

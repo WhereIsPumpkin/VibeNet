@@ -14,6 +14,7 @@ interface Post {
     coverPic: string;
   };
   createdAt: string;
+  likes: string[]; // Add the likes array to the Post interface
   __v: number;
 }
 
