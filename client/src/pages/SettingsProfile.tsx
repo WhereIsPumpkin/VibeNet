@@ -72,6 +72,9 @@ const SettingsProfile = () => {
     } catch (error) {
       console.error(error);
     }
+    for (const entry of formData.entries()) {
+      console.log(entry);
+    }
   };
 
   return (
@@ -115,7 +118,7 @@ const SettingsProfile = () => {
       </div>
 
       <div className="px-4 -mt-12 relative">
-        <div className="rounded-full border-4 border-white overflow-hidden w-24 h-24 ">
+        <div className="rounded-full border-4 border-white overflow-hidden w-24 h-24  flex items-center justify-center">
           <img
             src={profileImage || `http://localhost:6060${profile.profilePic}`}
             alt="profile img"

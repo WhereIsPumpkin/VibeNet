@@ -24,11 +24,6 @@ const HomePage = () => {
   const [image, setImage] = useState<string | null>(null);
   const postImageRef = useRef<HTMLInputElement>(null);
 
-  moment.fn.fromNow = function () {
-    const duration = moment().diff(this, "hours");
-    return duration + "h";
-  };
-
   useEffect(() => {
     if (textAreaRef.current) {
       textAreaRef.current.style.height = "2.5rem";
@@ -181,34 +176,38 @@ const HomePage = () => {
               />
 
               <div className="flex flex-col w-full">
-                <div className="w-full flex gap-1 items-center">
-                  <h2 className="flex-grow text-[#0F1419] text-basicFont font-semibold max-w-[7.8rem] truncate">
+                <div className="max-w-full flex gap-1 items-center">
+                  <h2 className=" text-[#0F1419] text-basicFont font-semibold max-w-[9rem] truncate">
                     {post.author.name} {post.author.lastName}
                   </h2>
 
-                  <span className="flex-grow text-basicFont text-[#65676B] max-w-[7.5rem] truncate">
-                    @{post.author.username}
+                  <span className="flex-grow truncate w-24">
+                    <span className=" text-basicFont text-[#65676B] w-[7.5rem] truncate">
+                      @{post.author.username}
+                    </span>
                   </span>
 
+                  {post.author._id == profile.id && (
+                    <div
+                      onClick={async () => {
+                        try {
+                          await axios.delete(`/api/posts/delete/${post._id}`);
+                          fetchPosts();
+                        } catch (err) {
+                          console.log(err);
+                        }
+                      }}
+                    >
+                      <DeleteIcon />
+                    </div>
+                  )}
+                </div>
+
+                <div>
                   <div className="flex items-center gap-1 flex-grow">
-                    <span className="text-[#65676B] text-[10px]">·</span>
-
-                    <span className="text-basicFont text-[#65676B]">
-                      {moment(post.createdAt).fromNow(true)}
+                    <span className="text-xxs text-[#65676B]">
+                      {moment(post.createdAt).fromNow()}
                     </span>
-                  </div>
-
-                  <div
-                    onClick={async () => {
-                      try {
-                        await axios.delete(`/api/posts/delete/${post._id}`);
-                        fetchPosts();
-                      } catch (err) {
-                        console.log(err);
-                      }
-                    }}
-                  >
-                    <DeleteIcon />
                   </div>
                 </div>
 
@@ -221,7 +220,7 @@ const HomePage = () => {
                 </p>
 
                 {post.postImage && (
-                  <div className="mt-3 border border-[#CFD9DE] rounded-2xl overflow-hidden mb-4">
+                  <div className="mt-3 border border-[#CFD9DE] rounded-2xl overflow-hidden">
                     <img
                       src={`http://localhost:6060${post.postImage}`}
                       alt="post image"
@@ -229,6 +228,18 @@ const HomePage = () => {
                     />
                   </div>
                 )}
+
+                <div className="w-full flex  items-center h-10 ">
+                  {post.likeCount > 0 && (
+                    <span className="flex gap-1 items-center text-[#65676B] text-basicFont">
+                      <LikeIcon stroke={"none"} fill={"#F91880"} />
+                      {post.likeCount}
+                    </span>
+                  )}
+                  <span className="flex gap-1 items-center text-[#65676B] text-basicFont ml-auto">
+                    <CommentIcon className="w-4 h-4" />0
+                  </span>
+                </div>
 
                 <hr />
 
@@ -238,26 +249,26 @@ const HomePage = () => {
                       const postId = post._id;
                       const userId = profile.id;
                       try {
-                        const resp = await axios.post(
-                          `/api/posts/like/${postId}/${userId}`
-                        );
-                        console.log(resp);
-                        fetchPosts()
+                        await axios.post(`/api/posts/like/${postId}/${userId}`);
+                        fetchPosts();
                       } catch (error) {
                         console.error(error);
                       }
                     }}
-                    className={`flex gap-[0.3rem] items-center text-basicFont ${
-                      post.likes.includes(profile.id) ? "text-[#1877F2]" : "text-[#65676B]"
+                    className={`flex gap-[0.3rem]  font-medium items-center text-basicFont md:cursor-pointer transform active:scale-95 transition-transform ${
+                      post.likes.includes(profile.id)
+                        ? "text-[#F33E58]"
+                        : "text-[#65676B]"
                     }`}
-                    
                   >
                     <LikeIcon
-                      color={
-                        post.likes.includes(profile.id) ? "#1877F2" : "#65676B"
+                      stroke={
+                        post.likes.includes(profile.id) ? "none" : "#65676B"
+                      }
+                      fill={
+                        post.likes.includes(profile.id) ? "#F91880" : "none"
                       }
                     />{" "}
-                    
                     Like
                   </div>
 
