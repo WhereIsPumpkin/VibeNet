@@ -14,11 +14,13 @@ import {
 } from "../components/icons";
 import axios from "axios";
 import moment from "moment";
+import CommentSection from "../components/CommentSection";
 
 const HomePage = () => {
   const { profile } = useStore();
   const { posts, fetchPosts } = usePostStore();
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const commentDialogRef = useRef<HTMLDialogElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState("");
   const [image, setImage] = useState<string | null>(null);
@@ -236,8 +238,12 @@ const HomePage = () => {
                       {post.likeCount}
                     </span>
                   )}
-                  <span className="flex gap-1 items-center text-[#65676B] text-basicFont ml-auto">
-                    <CommentIcon className="w-4 h-4" />0
+                  <span className="flex gap-[0.625rem] items-center text-[#65676B] text-basicFont ml-auto">
+                    <div className="flex gap-1 items-center">
+                      {post.commentCount} comments
+                    </div>
+
+                    <div className="flex gap-1 items-center">0 shares</div>
                   </span>
                 </div>
 
@@ -272,7 +278,14 @@ const HomePage = () => {
                     Like
                   </div>
 
-                  <div className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont">
+                  <div
+                    className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont"
+                    onClick={() => {
+                      commentDialogRef.current
+                        ? commentDialogRef.current.showModal()
+                        : null;
+                    }}
+                  >
                     <CommentIcon />
                     Comment
                   </div>
@@ -283,6 +296,15 @@ const HomePage = () => {
                   </div>
                 </div>
               </div>
+              <dialog
+                className="mt-[65%] min-w-full min-h-screen rounded-3xl shadow-lg p-0 focus:outline-none  animate-fade-up animate-duration-100 animate-ease-linear"
+                ref={commentDialogRef}
+              >
+                <CommentSection
+                  commentDialogRef={commentDialogRef}
+                  post={post}
+                />
+              </dialog>
             </div>
           ))}
         </div>

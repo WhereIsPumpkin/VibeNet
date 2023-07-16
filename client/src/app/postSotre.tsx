@@ -16,7 +16,19 @@ interface Post {
   createdAt: string;
   likes: string[]; // Add the likes array to the Post interface
   likeCount: number;
-  __v: number;
+  comments: [
+    {
+      user: {
+        _id: string;
+        name: string;
+        lastName: string;
+        username: string;
+        profilePic: string;
+      };
+      content: string;
+    },
+  ];
+  commentCount: number;
 }
 
 interface PostState {

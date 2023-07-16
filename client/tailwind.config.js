@@ -1,4 +1,5 @@
 import tailwindcssAnimated from "tailwindcss-animated";
+import "prettier-plugin-tailwindcss";
 
 /** @type {import('tailwindcss').Config} */
 export default {
