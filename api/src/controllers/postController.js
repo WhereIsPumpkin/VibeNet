@@ -25,7 +25,9 @@ export const createPost = async (req, res) => {
     const updatedPost = await Post.findById(newPost._id).populate("author");
 
     // send the updated post as a response
-    res.status(201).json({ post: updatedPost, message: "Post created successfully" });
+    res
+      .status(201)
+      .json({ post: updatedPost, message: "Post created successfully" });
   } catch (err) {
     console.log(err);
     res
@@ -33,7 +35,6 @@ export const createPost = async (req, res) => {
       .json({ message: "An error occurred while creating the post" });
   }
 };
-
 
 export const getPosts = async (req, res) => {
   try {
@@ -78,39 +79,20 @@ export const likePost = async (req, res) => {
       post.likes.splice(userIndex, 1);
     }
 
+    post.likeCount = post.likes.length;
+
     await post.save();
 
     // Send a success response with updated like status
-    const message = userIndex === -1 ? "Post liked successfully" : "Post unliked successfully";
+    const message =
+      userIndex === -1
+        ? "Post liked successfully"
+        : "Post unliked successfully";
     res.status(200).json({ message, likes: post.likes });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "An error occurred while handling the post like" });
-  }
-};
-
-
-export const unlikePost = async (req, res) => {
-  const { postId, userId } = req.params;
-  try {
-    const post = await Post.findById(postId);
-    if (!post) {
-      return res.status(404).json({ message: "Post not found" });
-    }
-
-    // Check if the user has liked the post
-    if (!post.likes.includes(userId)) {
-      return res.status(400).json({ message: "You have not liked this post" });
-    }
-
-    // Remove the user's ID from the likes array
-    post.likes = post.likes.filter((id) => id !== userId);
-    await post.save();
-
-    // Send a success response
-    res.status(200).json({ message: "Post unliked successfully" });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "An error occurred while unliking the post" });
+    res
+      .status(500)
+      .json({ message: "An error occurred while handling the post like" });
   }
 };

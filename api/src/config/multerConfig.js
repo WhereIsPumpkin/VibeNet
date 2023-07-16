@@ -36,5 +36,5 @@ export const upload = multer({ storage: fileStorage, fileFilter });
 export const uploadFields = upload.fields([
   { name: "coverPic", maxCount: 1 },
   { name: "postImage", maxCount: 1 },
-  { name: "image", maxCount: 1 },
+  { name: "profilePic", maxCount: 1 },
 ]);

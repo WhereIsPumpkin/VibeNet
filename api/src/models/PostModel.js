@@ -6,6 +6,7 @@ const postSchema = new Schema({
   },
   postImage: {
     type: Schema.Types.String,
+    required: false,
   },
   author: {
     type: Schema.Types.ObjectId,
@@ -22,6 +23,9 @@ const postSchema = new Schema({
       ref: "User",
     },
   ],
+  likeCount: {
+    type: Schema.Types.Number,
+  },
 });
 
 const Post = model("Post", postSchema);

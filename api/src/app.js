@@ -20,7 +20,6 @@ import {
   getPosts,
   deletePost,
   likePost,
-
 } from "./controllers/postController.js";
 
 const app = express();
