@@ -37,7 +37,7 @@ const Profile = () => {
           <span className="text-[#0F1319] font-semibold text-l">
             {profile.name} {profile.lastName}
           </span>
-          <span className="text-[#546471] text-xxs">0 Tweets</span>
+          <span className="text-[#546471] text-xxs">0 Posts</span>
         </div>
       </div>
       <div
@@ -69,23 +69,37 @@ const Profile = () => {
           </span>
         </div>
 
-        <div className="text-[#536471] text-basicFont">{profile.bio}</div>
+        {profile.bio ||
+          profile.website ||
+          (profile.location && (
+            <>
+              {profile.bio && (
+                <div className="text-[#536471] text-basicFont">
+                  {profile.bio}
+                </div>
+              )}
 
-        <div className="flex gap-2 items-center">
-          <div className="flex gap-1 text-[#536471] text-basicFont items-center">
-            <LocationIcon /> {profile.location}
-          </div>
-          <div className="flex gap-1 items-center">
-            <LinkIcon />{" "}
-            <a
-              className="text-[#1D98F0] text-basicFont max-w-[13rem] truncate"
-              href={profile.website}
-              target="_blank"
-            >
-              {profile.website}
-            </a>
-          </div>
-        </div>
+              <div className="flex gap-2 items-center">
+                {profile.location && (
+                  <div className="flex gap-1 text-[#536471] text-basicFont items-center">
+                    <LocationIcon /> {profile.location}
+                  </div>
+                )}
+                {profile.website && (
+                  <div className="flex gap-1 items-center">
+                    <LinkIcon />{" "}
+                    <a
+                      className="text-[#1D98F0] text-basicFont max-w-[13rem] truncate"
+                      href={profile.website}
+                      target="_blank"
+                    >
+                      {profile.website}
+                    </a>
+                  </div>
+                )}
+              </div>
+            </>
+          ))}
 
         <div className="flex gap-1">
           <CalendarIcon />
