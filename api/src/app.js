@@ -20,6 +20,7 @@ import {
   getPosts,
   deletePost,
   likePost,
+  addComment,
 } from "./controllers/postController.js";
 
 const app = express();
@@ -49,11 +50,11 @@ app.get("/api/posts/getPosts", getPosts);
 
 app.delete("/api/posts/delete/:id", deletePost);
 
-app.post("/api/posts/like/:postId/:userId", likePost);
-
+app.post("/api/posts/like/:postId/:userId", authMiddleware, likePost);
+app.post("/api/posts/comment/:postId/:userId", addComment);
 
 app.use("/", express.static("./public"));
-app.use("/", ...swaggerMiddleware);
+// app.use("/", ...swaggerMiddleware);
 
 app.listen(6060, () => {
   console.log("Server is running on port 6060");

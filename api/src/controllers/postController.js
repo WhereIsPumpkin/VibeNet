@@ -16,6 +16,7 @@ export const createPost = async (req, res) => {
       content,
       author,
       postImage: postImageUrl,
+      commentCount: 0,
     });
 
     // save the post to the database
@@ -38,8 +39,10 @@ export const createPost = async (req, res) => {
 
 export const getPosts = async (req, res) => {
   try {
-    // query the database for all posts
-    const posts = await Post.find().populate("author");
+    // query the database for all posts and populate the author and comments.user fields
+    const posts = await Post.find()
+      .populate("author")
+      .populate("comments.user");
 
     // send a success response with the posts
     res.status(200).json({ posts });
@@ -94,5 +97,50 @@ export const likePost = async (req, res) => {
     res
       .status(500)
       .json({ message: "An error occurred while handling the post like" });
+  }
+};
+
+export const addComment = async (req, res) => {
+  const { postId, userId } = req.params;
+  const { content } = req.body;
+
+  try {
+    if (!content) {
+      return res.status(404).json({ message: "Empty Comment" });
+    }
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    const newComment = {
+      user: userId,
+      content: content,
+    };
+
+    post.comments.push(newComment);
+    post.commentCount = post.comments.length;
+
+    await post.save();
+
+    // Populate the comments.user field after saving the post
+    const populatedPost = await Post.findById(postId).populate(
+      "comments.user",
+      "profilePic username"
+    );
+
+    const addedComment = populatedPost.comments.find(
+      (c) => c.content === content
+    );
+
+    res
+      .status(200)
+      .json({ message: "Comment added successfully", comment: addedComment });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ message: "An error occurred while handling the post comment" });
   }
 };
