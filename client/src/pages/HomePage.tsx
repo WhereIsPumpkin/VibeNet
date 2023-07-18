@@ -15,9 +15,12 @@ import {
 import axios from "axios";
 import moment from "moment";
 import CommentSection from "../components/CommentSection";
+import { Post } from "../app/postSotre";
 
 const HomePage = () => {
   const { profile } = useStore();
+
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const { posts, fetchPosts } = usePostStore();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const commentDialogRef = useRef<HTMLDialogElement>(null);
@@ -70,7 +73,6 @@ const HomePage = () => {
     }
   };
 
-  console.log();
   return (
     <div className="relative font-rubik ">
       <div className="w-full flex px-4 h-14 items-center justify-between border-b border-[#BDC5CD] relative">
@@ -177,7 +179,7 @@ const HomePage = () => {
                 className="w-10 h-10 rounded-full"
               />
 
-              <div className="flex flex-col w-full">
+              <div className="flex flex-col w-[19.125rem]">
                 <div className="max-w-full flex gap-1 items-center">
                   <h2 className=" text-[#0F1419] text-basicFont font-semibold max-w-[9rem] truncate">
                     {post.author.name} {post.author.lastName}
@@ -214,7 +216,7 @@ const HomePage = () => {
                 </div>
 
                 <p
-                  className={`text-[#050505] ${
+                  className={`text-[#050505]  break-words ${
                     !post.postImage ? "mb-4" : null
                   }`}
                 >
@@ -279,31 +281,34 @@ const HomePage = () => {
                   </div>
 
                   <div
-                    className="flex gap-[0.3rem] items-center text-[#65676B] text-basicFont"
+                    className="flex gap-[0.3rem] font-medium items-center text-[#65676B] text-basicFont"
                     onClick={() => {
                       commentDialogRef.current
                         ? commentDialogRef.current.showModal()
                         : null;
+                      setSelectedPost(post);
                     }}
                   >
                     <CommentIcon />
                     Comment
                   </div>
 
-                  <div className="flex gap-[0.3rem] items-center text-[#65676B]">
+                  <div className="flex gap-[0.3rem]  font-medium items-center text-[#65676B]">
                     <ShareIcon />
                     Share
                   </div>
                 </div>
               </div>
               <dialog
-                className="mt-[65%] min-w-full min-h-screen rounded-3xl shadow-lg p-0 focus:outline-none  animate-fade-up animate-duration-100 animate-ease-linear"
+                className="mt-[65%] min-w-full min-h-screen rounded-3xl shadow-lg p-0 focus:outline-none  animate-fade-up animate-duration-100 animate-ease-linear overflow-y-hidden"
                 ref={commentDialogRef}
               >
-                <CommentSection
-                  commentDialogRef={commentDialogRef}
-                  post={post}
-                />
+                {selectedPost && (
+                  <CommentSection
+                    commentDialogRef={commentDialogRef}
+                    post={selectedPost}
+                  />
+                )}
               </dialog>
             </div>
           ))}

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-interface Post {
+export interface Post {
   _id: string;
   content: string;
   postImage: string;
@@ -14,7 +14,7 @@ interface Post {
     coverPic: string;
   };
   createdAt: string;
-  likes: string[]; // Add the likes array to the Post interface
+  likes: string[];
   likeCount: number;
   comments: [
     {
