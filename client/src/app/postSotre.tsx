@@ -26,6 +26,7 @@ export interface Post {
         profilePic: string;
       };
       content: string;
+      createdAt: Date;
     },
   ];
   commentCount: number;

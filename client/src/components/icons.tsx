@@ -31,7 +31,7 @@ export const CloseIcon = ({ color }: { color: string }) => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke={color}
-      className="w-5 h-5"
+      className="w-6 h-6"
     >
       <path
         strokeLinecap="round"

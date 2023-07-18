@@ -43,6 +43,19 @@ const HomePage = () => {
     }
   };
 
+  const handleCommentPost = (newComment: Comment) => {
+    setSelectedPost((prevPost) => {
+      if (!prevPost) {
+        return null;
+      } else {
+        return {
+          ...prevPost,
+          comments: [...prevPost.comments, newComment],
+        };
+      }
+    });
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -300,13 +313,14 @@ const HomePage = () => {
                 </div>
               </div>
               <dialog
-                className="mt-[65%] min-w-full min-h-screen rounded-3xl shadow-lg p-0 focus:outline-none  animate-fade-up animate-duration-100 animate-ease-linear overflow-y-hidden"
+                className="min-w-full mt-auto mb-0 rounded-t-3xl shadow-lg p-0 focus:outline-none  animate-fade-up animate-duration-100 animate-ease-linear overflow-y-hidden h-full"
                 ref={commentDialogRef}
               >
                 {selectedPost && (
                   <CommentSection
                     commentDialogRef={commentDialogRef}
                     post={selectedPost}
+                    onCommentPost={handleCommentPost}
                   />
                 )}
               </dialog>
