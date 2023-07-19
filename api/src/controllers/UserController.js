@@ -195,6 +195,7 @@ export const loginUser = async (req, res) => {
           registrationDate: existingUser.registrationDate,
           coverPic: existingUser.coverPic,
           profilePic: existingUser.profilePic,
+          saved: existingUser.savedPosts,
         };
         const token = jwt.sign(payload, jwtSecret);
         res.cookie("token", token, { sameSite: "none", secure: true });
@@ -272,6 +273,7 @@ export const updateProfile = async (req, res) => {
       registrationDate: updatedUser.registrationDate,
       coverPic: updatedUser.coverPic,
       profilePic: updatedUser.profilePic,
+      saved: updatedUser.savedPosts,
     };
     const newToken = jwt.sign(payload, jwtSecret);
 
