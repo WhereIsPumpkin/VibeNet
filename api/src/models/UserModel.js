@@ -51,6 +51,12 @@ const userSchema = new Schema({
   coverPic: {
     type: Schema.Types.String,
   },
+  savedPosts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
 const User = model("User", userSchema);

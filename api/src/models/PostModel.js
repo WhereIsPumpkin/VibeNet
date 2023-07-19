@@ -49,6 +49,17 @@ const postSchema = new Schema({
   commentCount: {
     type: Schema.Types.Number,
   },
+
+  saves: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  saveCount: {
+    type: Schema.Types.Number,
+    default: 0,
+  },
 });
 
 const Post = model("Post", postSchema);
