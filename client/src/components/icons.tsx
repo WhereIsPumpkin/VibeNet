@@ -257,20 +257,20 @@ export const CommentIcon = ({ className = "w-6 h-6" }) => {
   );
 };
 
-export const ShareIcon = () => {
+export const ShareIcon = ({ fill, stroke }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      fill="none"
       viewBox="0 0 24 24"
+      fill={fill}
+      stroke={stroke}
       strokeWidth={1.5}
-      stroke="#65676B"
       className="w-6 h-6"
     >
       <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"
+        fillRule="evenodd"
+        d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z"
+        clipRule="evenodd"
       />
     </svg>
   );

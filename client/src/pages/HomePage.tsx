@@ -258,7 +258,9 @@ const HomePage = () => {
                       {post.commentCount} comments
                     </div>
 
-                    <div className="flex gap-1 items-center">0 shares</div>
+                    <div className="flex gap-1 items-center">
+                      {post.saveCount} saves
+                    </div>
                   </span>
                 </div>
 
@@ -306,9 +308,28 @@ const HomePage = () => {
                     Comment
                   </div>
 
-                  <div className="flex gap-[0.3rem]  font-medium items-center text-[#65676B]">
-                    <ShareIcon />
-                    Share
+                  <div
+                    onClick={async () => {
+                      const postId = post._id;
+                      const userId = profile.id;
+                      try {
+                        await axios.post(`/api/posts/save/${postId}/${userId}`);
+                        fetchPosts();
+                      } catch (error) {
+                        console.error(error);
+                      }
+                    }}
+                    className={`flex gap-[0.3rem]  font-medium items-center text-[#65676B] `}
+                  >
+                    <ShareIcon
+                      stroke={
+                        post.saves.includes(profile.id) ? "none" : "#65676B"
+                      }
+                      fill={
+                        post.saves.includes(profile.id) ? "#00BA7C" : "none"
+                      }
+                    />
+                    {post.saves.includes(profile.id) ? "Unsave" : "Save"}
                   </div>
                 </div>
               </div>

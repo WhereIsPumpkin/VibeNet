@@ -30,6 +30,8 @@ export interface Post {
     },
   ];
   commentCount: number;
+  saves: string[];
+  saveCount: number;
 }
 
 interface PostState {
