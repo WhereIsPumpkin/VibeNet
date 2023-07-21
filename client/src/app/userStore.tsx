@@ -1,20 +1,24 @@
 import { create } from "zustand";
+import { Post } from "./postSotre";
 import axios from "axios";
 
-interface userState {
-  profile: {
-    id: string;
-    name: string;
-    lastName: string;
-    gender: string;
-    username: string;
-    location: string;
-    website: string;
-    bio: string;
-    registrationDate: string;
-    profilePic: string;
-    coverPic: string;
-  };
+export interface Profile {
+  id: string;
+  name: string;
+  lastName: string;
+  gender: string;
+  username: string;
+  location: string;
+  website: string;
+  bio: string;
+  registrationDate: string;
+  profilePic: string;
+  coverPic: string;
+  saved: Post[];
+}
+
+export interface userState {
+  profile: Profile;
   getProfile: () => void;
   isLoggedIn: boolean;
   setLoggedIn: (isLoggedIn: boolean) => void;
@@ -38,6 +42,7 @@ export const useStore = create<userState>((set) => ({
     registrationDate: "",
     profilePic: "",
     coverPic: "",
+    saved: [],
   },
   getProfile: async () => {
     try {
@@ -57,6 +62,7 @@ export const useStore = create<userState>((set) => ({
           registrationDate: data.registrationDate,
           profilePic: data.profilePic,
           coverPic: data.coverPic,
+          saved: data.saved,
         },
       }));
     } catch (error) {

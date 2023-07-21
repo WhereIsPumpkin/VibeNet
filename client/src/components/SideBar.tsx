@@ -1,4 +1,4 @@
-import { CloseIcon, ProfileIcon } from "./icons";
+import { CloseIcon, ProfileIcon, ShareIcon } from "./icons";
 import { useStore } from "../app/userStore";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
   const { profile } = useStore();
   return (
     <div className="px-4 py-4 ">
-      <div className="flex items-center justify-between max-w-[280px]">
+      <header className="flex items-center justify-between max-w-[280px]">
         <h1 className="f font-medium text-l">Account info</h1>
         <div
           onClick={() => {
@@ -21,7 +21,8 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
         >
           <CloseIcon color={"currentColor"} />
         </div>
-      </div>
+      </header>
+
       <div>
         <img
           src={`http://localhost:6060${profile.profilePic}`}
@@ -43,12 +44,21 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
           </span>
         </div>
       </div>
+
       <div
         onClick={() => navigate(`/${profile.username}`)}
         className="flex gap-6 items-center mt-8"
       >
         <ProfileIcon />
         <span className="text-xl font-medium">Profile</span>
+      </div>
+
+      <div
+        onClick={() => navigate(`/saved`)}
+        className="flex gap-6 items-center mt-8"
+      >
+        <ShareIcon fill={"none"} stroke={"currentColor"} />
+        <span className="text-xl font-medium">Saved</span>
       </div>
     </div>
   );
