@@ -1,5 +1,8 @@
 import Post from "../models/PostModel.js";
 import User from "../models/UserModel.js";
+import jwt from "jsonwebtoken";
+
+const jwtSecret = process.env.JWT_SECRET;
 
 export const createPost = async (req, res) => {
   try {
@@ -154,7 +157,7 @@ export const savePost = async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    const user = await User.findById(userId);
+    let user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -171,6 +174,9 @@ export const savePost = async (req, res) => {
 
     await user.save();
 
+    // Populate the savedPosts field of the updated user document
+    user = await User.findById(userId).populate("savedPosts");
+
     const userIndex = post.saves.indexOf(userId);
 
     if (userIndex === -1) {
@@ -182,6 +188,26 @@ export const savePost = async (req, res) => {
     post.saveCount = post.saves.length;
 
     await post.save();
+
+    const payload = {
+      id: user._id,
+      name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+      gender: user.gender,
+      bio: user.bio,
+      location: user.location,
+      website: user.website,
+      registrationDate: user.registrationDate,
+      coverPic: user.coverPic,
+      profilePic: user.profilePic,
+      saved: user.savedPosts.map((post) => post._id),
+    };
+    const newToken = jwt.sign(payload, jwtSecret);
+
+    // Send the new token back to the client in a cookie
+    res.cookie("token", newToken, { sameSite: "none", secure: true });
 
     const message =
       userIndex === -1

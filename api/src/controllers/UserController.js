@@ -177,7 +177,9 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const lowercaseEmail = email.toLowerCase();
-    const existingUser = await User.findOne({ email: lowercaseEmail });
+    const existingUser = await User.findOne({ email: lowercaseEmail }).populate(
+      "savedPosts"
+    );
 
     if (existingUser) {
       const passOk = bycript.compareSync(password, existingUser.password);
@@ -216,7 +218,7 @@ export const getProfile = async (req, res) => {
   const token = req.cookies?.token;
 
   if (token) {
-    jwt.verify(token, jwtSecret, {}, (err, userData) => {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
       res.json(userData);
     });
@@ -232,8 +234,11 @@ export const updateProfile = async (req, res) => {
     const userEmail = req.user.email;
 
     // Get the profile and cover image files from the request
-    const profilePic = req.files.profilePic;
-    const coverPic = req.files.coverPic;
+    let profilePic, coverPic;
+    if (req.files) {
+      profilePic = req.files.profilePic;
+      coverPic = req.files.coverPic;
+    }
 
     // Generate the URLs of the saved profile and cover images
     let profilePicUrl, coverPicUrl;
@@ -246,18 +251,28 @@ export const updateProfile = async (req, res) => {
       coverPicUrl = "/" + coverPicUrl.replace(/\\/g, "/");
     }
 
-    await User.findOneAndUpdate(
-      { email: userEmail },
-      {
-        name,
-        lastName,
-        bio,
-        website,
-        location,
-        ...(profilePicUrl && { profilePic: profilePicUrl }),
-        ...(coverPicUrl && { coverPic: coverPicUrl }),
-      }
-    );
+    if (
+      name ||
+      lastName ||
+      bio ||
+      website ||
+      location ||
+      profilePicUrl ||
+      coverPicUrl
+    ) {
+      await User.findOneAndUpdate(
+        { email: userEmail },
+        {
+          ...(name && { name }),
+          ...(lastName && { lastName }),
+          ...(bio && { bio }),
+          ...(website && { website }),
+          ...(location && { location }),
+          ...(profilePicUrl && { profilePic: profilePicUrl }),
+          ...(coverPicUrl && { coverPic: coverPicUrl }),
+        }
+      );
+    }
 
     const updatedUser = await User.findOne({ email: userEmail });
     const payload = {
