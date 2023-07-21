@@ -118,13 +118,14 @@ const SettingsProfile = () => {
       </div>
 
       <div className="px-4 -mt-12 relative">
-        <div className="rounded-full border-4 border-white overflow-hidden w-24 h-24  flex items-center justify-center">
+        <div className="rounded-full border-4 border-white overflow-hidden w-24 h-24 flex items-center justify-center">
           <img
             src={profileImage || `http://localhost:6060${profile.profilePic}`}
             alt="profile img"
-            className="filter brightness-75"
+            className="w-full h-full object-cover filter brightness-75"
           />
         </div>
+
         <button
           onClick={() => profileFileInputRef.current?.click()}
           className=" bg-black/50 w-11 h-11 absolute left-16 -translate-x-1/2 top-1/2 -translate-y-1/2 rounded-full flex items-center justify-center"

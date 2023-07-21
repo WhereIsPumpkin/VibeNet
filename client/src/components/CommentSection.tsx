@@ -102,7 +102,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           <img
             src={`http://localhost:6060${profile.profilePic}`}
             alt="prof pic"
-            className="w-10 h-10 rounded-full "
+            className="w-10 h-10 rounded-full object-cover"
           />
 
           <form onSubmit={handleSubmit} className="w-full relative">

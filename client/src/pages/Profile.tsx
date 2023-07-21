@@ -49,9 +49,13 @@ const Profile = () => {
 
       <div className="px-4 flex flex-col gap-2">
         <div className="flex justify-between items-center">
-          <div className="w-21 h-21 rounded-full overflow-hidden border-2 border-white -mt-10">
-            <img src={`http://localhost:6060${profile.profilePic}`} />
+          <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white -mt-10 flex items-center justify-center">
+            <img
+              className="w-full h-full object-cover"
+              src={`http://localhost:6060${profile.profilePic}`}
+            />
           </div>
+
           <button
             onClick={() => navigate("/settings/profile")}
             className="border border-[#CFD9DE] rounded-2xl text-[#0F1319] font-semibold px-3 mt-3 py-[0.625rem] max-h-9 flex items-center text-basicFont"

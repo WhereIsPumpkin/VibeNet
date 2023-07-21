@@ -27,7 +27,7 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
         <img
           src={`http://localhost:6060${profile.profilePic}`}
           alt="prof pic"
-          className="w-10 h-10 rounded-full mt-6"
+          className="w-10 h-10 rounded-full object-cover mt-6"
         />
         <h2 className="font-semibold mt-1">
           {profile.name} {profile.lastName}

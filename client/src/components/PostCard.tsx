@@ -40,12 +40,16 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
         }
 
         return (
-          <div className="bg-white px-4 py-3 shadow-sm flex gap-3" key={index}>
+          <div
+            className="bg-white px-4 py-3 shadow-sm flex gap-3 font-rubik"
+            key={index}
+          >
             <img
               src={`http://localhost:6060${post.author.profilePic}`}
               alt="prof pic"
-              className="w-10 h-10 rounded-full"
+              className="w-10 h-10 rounded-full object-cover"
             />
+
             <div className="flex flex-col w-[19.125rem]">
               <div className="max-w-full flex gap-1 items-center">
                 <h2 className=" text-[#0F1419] text-basicFont font-semibold max-w-[9rem] truncate">
