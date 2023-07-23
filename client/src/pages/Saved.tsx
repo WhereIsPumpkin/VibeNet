@@ -3,13 +3,18 @@ import { useStore } from "../app/userStore";
 import { usePostStore } from "../app/postSotre";
 import { useNavigate } from "react-router-dom";
 import PostCard from "../components/PostCard";
+import { useEffect } from "react";
 
 const Saved = () => {
-  const { profile } = useStore();
-  const { posts } = usePostStore();
+  const { profile, getProfile } = useStore();
+  const { posts, fetchPosts } = usePostStore();
   const navigate = useNavigate();
 
-  // Filter the posts array to include only the posts that have been saved by the current user
+  useEffect(() => {
+    getProfile();
+    fetchPosts();
+  }, [getProfile, fetchPosts]);
+
   const savedPosts = posts.filter((post) => post.saves.includes(profile.id));
 
   return (

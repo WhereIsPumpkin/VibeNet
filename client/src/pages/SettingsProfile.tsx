@@ -1,16 +1,19 @@
 import { AddImageIcon, GoBackIcon } from "../components/icons";
 import { useStore } from "../app/userStore";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const SettingsProfile = () => {
+  const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const profileFileInputRef = useRef<HTMLInputElement>(null);
   const [coverImage, setCoverImage] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const {
     profile,
+    getProfile,
     updateName,
     updateLastName,
     updateWebsite,
@@ -77,6 +80,10 @@ const SettingsProfile = () => {
     }
   };
 
+  useEffect(() => {
+    getProfile();
+  }, [getProfile]);
+
   return (
     <div className="flex flex-col font-rubik">
       <div className="flex items-center gap-9 px-4 h-14">
@@ -85,7 +92,7 @@ const SettingsProfile = () => {
         </div>
 
         <span className="text-[#0F1319] font-semibold text-l">
-          Edit Profile
+          {t("editProf")}
         </span>
 
         <div className="flex-grow"></div>
@@ -95,7 +102,7 @@ const SettingsProfile = () => {
           form="updateForm"
           className="m min-h-[2rem] bg-[#0F1319] rounded-2xl px-4 text-white font-semibold"
         >
-          Save
+          {t("save")}
         </button>
       </div>
 
@@ -153,7 +160,7 @@ const SettingsProfile = () => {
               !profile.name ? "top-0 left-0" : null
             }`}
           >
-            Name
+            {t("name")}
           </label>
           <input
             value={profile.name}
@@ -171,7 +178,7 @@ const SettingsProfile = () => {
               !profile.lastName ? "top-0 left-0" : null
             }`}
           >
-            Last Name
+            {t("lastName")}
           </label>
           <input
             value={profile.lastName}
@@ -196,7 +203,7 @@ const SettingsProfile = () => {
               !profile.website ? "top-0 left-0" : null
             }`}
           >
-            Website
+            {t("webSite")}
           </label>
           <input
             value={profile.website}
@@ -214,7 +221,7 @@ const SettingsProfile = () => {
               !profile.location ? "top-0 left-0" : null
             }`}
           >
-            Location
+            {t("location")}
           </label>
           <input
             value={profile.location}

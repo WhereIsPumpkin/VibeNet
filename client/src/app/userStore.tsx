@@ -15,6 +15,8 @@ export interface Profile {
   profilePic: string;
   coverPic: string;
   saved: Post[];
+  followers: string[];
+  following: string[];
 }
 
 export interface userState {
@@ -43,6 +45,8 @@ export const useStore = create<userState>((set) => ({
     profilePic: "",
     coverPic: "",
     saved: [],
+    followers: [],
+    following: [],
   },
   getProfile: async () => {
     try {
@@ -63,6 +67,8 @@ export const useStore = create<userState>((set) => ({
           profilePic: data.profilePic,
           coverPic: data.coverPic,
           saved: data.saved,
+          following: data.following,
+          followers: data.followers,
         },
       }));
     } catch (error) {

@@ -6,8 +6,10 @@ import profPic from "../assets/blank-profile-picture-973460_960_720.webp";
 import { MenuIcon, CloseIcon, PhotoIcon } from "../components/icons";
 import axios from "axios";
 import PostCard from "../components/PostCard";
+import { useTranslation } from "react-i18next";
 
 const HomePage = () => {
+  const { t } = useTranslation();
   const { profile } = useStore();
   const { posts, fetchPosts } = usePostStore();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -92,7 +94,7 @@ const HomePage = () => {
               className="w-full rounded-2xxl bg-[#F0F2F5] focus:outline-none px-3 py-2 resize-none overflow-hidden"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder={`What's on your mind, ${profile.name}? `}
+              placeholder={`${t("whatMind")}, ${profile.name}? `}
             />
           </div>
 
@@ -135,7 +137,7 @@ const HomePage = () => {
                 className="flex gap-2 items-center md:cursor-pointer"
               >
                 <PhotoIcon />
-                Add Photo
+                {t("addPhoto")}
               </label>
 
               <button

@@ -4,6 +4,7 @@ import { useStore } from "../app/userStore";
 import axios from "axios";
 import { usePostStore } from "../app/postSotre";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 interface CommentSectionProps {
   commentDialogRef: React.RefObject<HTMLDialogElement>;
@@ -36,6 +37,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   const { profile } = useStore();
   const { fetchPosts } = usePostStore();
   const scroll = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
@@ -60,7 +62,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   return (
     <div className="h-full flex flex-col">
       <header className="flex justify-between px-4  pt-4 ">
-        <h1 className="font-medium ">Comments</h1>
+        <h1 className="font-medium ">{t("commentss")}</h1>
 
         <div
           onClick={() => {
@@ -110,7 +112,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
               className="w-full rounded-2xxl bg-[#F0F2F5] focus:outline-none pl-3 pr-11 py-2 resize-none overflow-hidden"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder={`What's on your mind, ${profile.name}? `}
+              placeholder={`${t("whatMind")}, ${profile.name}? `}
             />
             <button
               type="submit"

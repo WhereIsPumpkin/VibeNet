@@ -6,6 +6,8 @@ import CommentSection from "./CommentSection";
 import { useRef, useState } from "react";
 import { Post } from "../app/postSotre";
 import { Profile, useStore } from "../app/userStore";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface PostCardProps {
   posts: Post[];
@@ -13,13 +15,17 @@ interface PostCardProps {
 }
 
 const PostCard = ({ posts, profile }: PostCardProps) => {
+  const { t } = useTranslation();
   const getProfile = useStore((state) => state.getProfile);
+  const navigate = useNavigate();
   const { fetchPosts } = usePostStore();
   const commentDialogRef = useRef<HTMLDialogElement>(null);
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [selectedPost, setSelectedPost] = useState<any | null>(null);
 
   const handleCommentPost = (newComment: Comment) => {
-    setSelectedPost((prevPost) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setSelectedPost((prevPost: { comments: any }) => {
       if (!prevPost) {
         return null;
       } else {
@@ -45,6 +51,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
             key={index}
           >
             <img
+              onClick={() => navigate(`/${post.author.username}`)}
               src={`http://localhost:6060${post.author.profilePic}`}
               alt="prof pic"
               className="w-10 h-10 rounded-full object-cover"
@@ -107,10 +114,10 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                 )}
                 <span className="flex gap-[0.625rem] items-center text-[#65676B] text-basicFont ml-auto">
                   <div className="flex gap-1 items-center">
-                    {post.commentCount} comments
+                    {post.commentCount} {t("comments")}
                   </div>
                   <div className="flex gap-1 items-center">
-                    {post.saveCount} saves
+                    {post.saveCount} {t("saves")}
                   </div>
                 </span>
               </div>
@@ -139,7 +146,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                     }
                     fill={post.likes.includes(profile.id) ? "#F91880" : "none"}
                   />{" "}
-                  Like
+                  {t("like")}
                 </div>
                 <div
                   className="flex gap-[0.3rem] font-medium items-center text-[#65676B] text-basicFont"
@@ -150,7 +157,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                     setSelectedPost(post);
                   }}
                 >
-                  <CommentIcon /> Comment
+                  <CommentIcon /> {t("comment")}
                 </div>
                 <div
                   onClick={async () => {
@@ -172,7 +179,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                     }
                     fill={post.saves.includes(profile.id) ? "#00BA7C" : "none"}
                   />{" "}
-                  {post.saves.includes(profile.id) ? "Unsave" : "Save"}
+                  {post.saves.includes(profile.id) ? t("saved") : t("save")}
                 </div>
               </div>
             </div>
