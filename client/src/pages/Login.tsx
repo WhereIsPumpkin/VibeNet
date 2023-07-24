@@ -17,6 +17,8 @@ const Login = () => {
     }
   };
 
+  
+
   return (
     <div className="bg-[#f0f2f5] w-screen h-screen flex items-center font-rubik">
       <div className="mr-auto ml-auto h-full flex items-center overflow-y-hidden mobile:max-xl:flex-col mobile:max-xl:py-8 mobile:max-xl:gap-32 mobile:max-xl:px-4">

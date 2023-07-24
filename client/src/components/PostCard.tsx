@@ -37,6 +37,8 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
     });
   };
 
+  const backendURL = "https://vibenetapi.up.railway.app";
+
   return (
     <div className="bg-[#F0F2F5] flex gap-4 flex-col-reverse pt-2 max-w-2xl md:shadow-customPost md:mx-auto md:min-w-[42rem] md:rounded-lg md:pt-0">
       {posts.map((post, index) => {
@@ -52,7 +54,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
           >
             <img
               onClick={() => navigate(`/${post.author.username}`)}
-              src={`http://localhost:6060${post.author.profilePic}`}
+              src={`${backendURL}${post.author.profilePic}`}
               alt="prof pic"
               className="w-10 h-10 rounded-full object-cover md:cursor-pointer"
             />
@@ -102,7 +104,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
               {post.postImage && (
                 <div className="mt-3 border border-[#CFD9DE] rounded-2xl overflow-hidden">
                   <img
-                    src={`http://localhost:6060${post.postImage}`}
+                    src={`${backendURL}${post.postImage}`}
                     alt="post image"
                     className="w-full"
                   />

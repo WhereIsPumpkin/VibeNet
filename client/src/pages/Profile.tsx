@@ -21,6 +21,7 @@ const Profile = () => {
   const date = new Date(user.registrationDate);
   const month = date.toLocaleString("en-US", { month: "long" });
   const year = date.getFullYear();
+  const backendURL = "https://vibenetapi.up.railway.app";
 
   
   useEffect(() => {
@@ -68,7 +69,7 @@ const Profile = () => {
 
       <div
         style={{
-          backgroundImage: `url(http://localhost:6060${user.coverPic})`,
+          backgroundImage: `url(${backendURL}${user.coverPic})`,
         }}
         className="bg-[#CFD9DE] w-screen h-32 ceter bg-no-repeat bg-center  md:mx-auto md:min-w-[42rem] md:rounded-lg md:max-w-[42rem] md:rounded-b-none"
       ></div>
@@ -80,7 +81,7 @@ const Profile = () => {
               className="w-full h-full object-cover"
               src={
                 (user.profilePic &&
-                  `http://localhost:6060${user.profilePic}`) ||
+                  `${backendURL}${user.profilePic}`) ||
                 defaultProfile
               }
             />

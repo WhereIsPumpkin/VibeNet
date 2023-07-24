@@ -10,7 +10,7 @@ import { I18nextProvider } from "react-i18next";
 
 
 function App() {
-  axios.defaults.baseURL = "http://localhost:6060";
+  axios.defaults.baseURL = "https://vibenetapi.up.railway.app";
   axios.defaults.withCredentials = true;
 
   return (

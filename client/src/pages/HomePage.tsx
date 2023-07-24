@@ -9,7 +9,7 @@ import PostCard from "../components/PostCard";
 import { useTranslation } from "react-i18next";
 import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp";
 
-const backendURL = "http://localhost:6060";
+const backendURL = "https://vibenetapi.up.railway.app";
 
 const HomePage = () => {
   const { t } = useTranslation();

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp"
 
 const SettingsProfile = () => {
+  const backendURL = "https://vibenetapi.up.railway.app";
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const profileFileInputRef = useRef<HTMLInputElement>(null);
@@ -133,7 +134,7 @@ const SettingsProfile = () => {
           <img
             src={
               (profileImage || profile.profilePic &&
-                `http://localhost:6060${profile.profilePic}`) ||
+                `${backendURL}${profile.profilePic}`) ||
               defaultProfile
             }
             alt="profile img"

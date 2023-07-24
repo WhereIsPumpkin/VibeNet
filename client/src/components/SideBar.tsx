@@ -17,6 +17,8 @@ interface SideBarProps {
   dialogRef: React.RefObject<HTMLDialogElement>;
 }
 
+const backendURL = "https://vibenetapi.up.railway.app";
+
 const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -59,7 +61,7 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
             onClick={() => navigate(profile.username)}
             src={
               (profile.profilePic &&
-                `http://localhost:6060${profile.profilePic}`) ||
+                `${backendURL}${profile.profilePic}`) ||
               defaultProfile
             }
             alt="prof pic"

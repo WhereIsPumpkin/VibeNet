@@ -29,6 +29,8 @@ interface CommentSectionProps {
   onCommentPost: (comment: Comment) => void;
 }
 
+const backendURL = "https://vibenetapi.up.railway.app";
+
 const CommentSection: React.FC<CommentSectionProps> = ({
   commentDialogRef,
   post,
@@ -89,7 +91,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
               <div
                 className="bg-cover bg-no-repeat bg-center w-7 h-7 rounded-full min-w-7 min-h-7 flex-shrink-0"
                 style={{
-                  backgroundImage: `url(http://localhost:6060${comment.user.profilePic})`,
+                  backgroundImage: `url(${backendURL}${comment.user.profilePic})`,
                 }}
               ></div>
 
@@ -111,7 +113,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           <img
             src={
               (profile.profilePic &&
-                `http://localhost:6060${profile.profilePic}`) ||
+                `${backendURL}${profile.profilePic}`) ||
               defaultProfile
             }
             alt="prof pic"
