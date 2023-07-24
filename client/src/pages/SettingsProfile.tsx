@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp"
 
 const SettingsProfile = () => {
   const { t } = useTranslation();
@@ -86,12 +87,15 @@ const SettingsProfile = () => {
 
   return (
     <div className="flex flex-col font-rubik">
-      <div className="flex items-center gap-9 px-4 h-14">
-        <div onClick={() => navigate(-1)}>
+
+      <div className="flex items-center gap-9 px-4 h-14 ">
+        <div
+        className="md:cursor-pointer"
+        onClick={() => navigate(-1)}>
           <GoBackIcon />
         </div>
 
-        <span className="text-[#0F1319] font-semibold text-l">
+        <span className="text-[#0F1319] font-semibold text-l ">
           {t("editProf")}
         </span>
 
@@ -107,7 +111,7 @@ const SettingsProfile = () => {
       </div>
 
       <div
-        className="bg-[#CFD2DE] w-screen h-32 grid items-center justify-center bg-no-repeat bg-center"
+        className="bg-[#CFD2DE] w-screen h-32 grid items-center justify-center bg-no-repeat bg-center md:mx-auto md:min-w-[42rem] md:rounded-lg md:max-w-[42rem] md:rounded-b-none"
         style={{ backgroundImage: `url(${coverImage || profile.coverPic} )` }}
       >
         <div className="bg-black/50 w-11 h-11 flex items-center justify-center rounded-full">
@@ -124,10 +128,14 @@ const SettingsProfile = () => {
         </div>
       </div>
 
-      <div className="px-4 -mt-12 relative">
+      <div className="px-4 -mt-12 relative md:mx-auto md:min-w-[42rem] md:rounded-lg md:max-w-[42rem] md:rounded-b-none">
         <div className="rounded-full border-4 border-white overflow-hidden w-24 h-24 flex items-center justify-center">
           <img
-            src={profileImage || `http://localhost:6060${profile.profilePic}`}
+            src={
+              (profileImage || profile.profilePic &&
+                `http://localhost:6060${profile.profilePic}`) ||
+              defaultProfile
+            }
             alt="profile img"
             className="w-full h-full object-cover filter brightness-75"
           />
@@ -151,7 +159,7 @@ const SettingsProfile = () => {
       <form
         id="updateForm"
         onSubmit={handlesubmit}
-        className="px-4 mt-3 relative group flex flex-col gap-4"
+        className="px-4 mt-3 relative group flex flex-col gap-4 md:mx-auto md:min-w-[42rem] md:rounded-lg md:max-w-[42rem] md:rounded-b-none"
       >
         <div className="relative">
           <label
@@ -232,6 +240,7 @@ const SettingsProfile = () => {
           />
         </div>
       </form>
+      
     </div>
   );
 };

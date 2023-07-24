@@ -83,14 +83,14 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-2 gap-x-3 gap-y-3"
+        className="grid grid-cols-2 gap-x-3 gap-y-3 mobile:max-xl:flex mobile:max-xl:flex-col "
       >
         <div className="relative">
           <input
             {...register("name")}
             type="text"
             placeholder="First name"
-            className={`row-start-1 row-end-2 col-start-1 col-end-2 p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+            className={`row-start-1 mobile:max-xl:w-full row-end-2 col-start-1 col-end-2 p-3 h-10 bg-[#f0f2f5] rounded-md border ${
               errors.name ? "border-red-500" : "border-[#ccd0d5]"
             } focus:outline-none text-base`}
           />
@@ -105,7 +105,7 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
             {...register("lastName")}
             type="text"
             placeholder="Last name"
-            className={`row-start-1 row-end-2 col-start-2 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+            className={`row-start-1 row-end-2 mobile:max-xl:w-full  col-start-2 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border ${
               errors.lastName ? "border-red-500" : "border-[#ccd0d5]"
             } focus:outline-none text-base`}
           />

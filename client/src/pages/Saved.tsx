@@ -20,7 +20,9 @@ const Saved = () => {
   return (
     <>
       <div className="flex items-center gap-9 px-4 h-14 border-b border-[#BDC5CD] font-rubik">
-        <div onClick={() => navigate(-1)}>
+        <div
+        className="md:cursor-pointer"
+        onClick={() => navigate(-1)}>
           <GoBackIcon />
         </div>
         <div className="flex flex-col">

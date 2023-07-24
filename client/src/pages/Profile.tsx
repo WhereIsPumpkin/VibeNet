@@ -9,6 +9,7 @@ import {
   LinkIcon,
 } from "../components/icons";
 import { useTranslation } from "react-i18next";
+import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp"
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -21,6 +22,7 @@ const Profile = () => {
   const month = date.toLocaleString("en-US", { month: "long" });
   const year = date.getFullYear();
 
+  
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -49,7 +51,9 @@ const Profile = () => {
   return (
     <div className="flex flex-col font-rubik">
       <div className="flex items-center gap-9 px-4 h-14">
-        <div onClick={() => navigate(-1)}>
+        <div 
+        className="md:cursor-pointer"
+        onClick={() => navigate(-1)}>
           <GoBackIcon />
         </div>
         <div className="flex flex-col">
@@ -61,18 +65,24 @@ const Profile = () => {
           </span>
         </div>
       </div>
+
       <div
         style={{
           backgroundImage: `url(http://localhost:6060${user.coverPic})`,
         }}
-        className="bg-[#CFD9DE] w-screen h-32 ceter bg-no-repeat bg-center"
+        className="bg-[#CFD9DE] w-screen h-32 ceter bg-no-repeat bg-center  md:mx-auto md:min-w-[42rem] md:rounded-lg md:max-w-[42rem] md:rounded-b-none"
       ></div>
-      <div className="px-4 flex flex-col gap-2">
+
+      <div className="px-4 flex flex-col gap-2 md:shadow-customPost md:mx-auto md:min-w-[42rem] md:rounded-lg md:rounded-t-none">
         <div className="flex justify-between items-center">
           <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white -mt-10 flex items-center justify-center">
             <img
               className="w-full h-full object-cover"
-              src={`http://localhost:6060${user.profilePic}`}
+              src={
+                (user.profilePic &&
+                  `http://localhost:6060${user.profilePic}`) ||
+                defaultProfile
+              }
             />
           </div>
           {profile.username === username ? (
@@ -103,40 +113,39 @@ const Profile = () => {
             @{user.username}
           </span>
         </div>
-        {user.bio ||
-          user.website ||
-          (user.location && (
-            <>
-              {user.bio && (
-                <div className="text-[#536471] text-basicFont">{user.bio}</div>
+        {user.bio || user.website || user.location ? (
+          <>
+            {user.bio && (
+              <div className="text-[#536471] text-basicFont">{user.bio} </div>
+            )}
+            <div className="flex gap-2 items-center">
+              {user.location && (
+                <div className="flex gap-1 text-[#536471] text-basicFont items-center">
+                  <LocationIcon /> {user.location}
+                </div>
               )}
-              <div className="flex gap-2 items-center">
-                {user.location && (
-                  <div className="flex gap-1 text-[#536471] text-basicFont items-center">
-                    <LocationIcon /> {user.location}
-                  </div>
-                )}
-                {user.website && (
-                  <div className="flex gap-1 items-center">
-                    <LinkIcon />{" "}
-                    <a
-                      className="text-[#1D98F0] text-basicFont max-w-[13rem] truncate"
-                      href={user.website}
-                      target="_blank"
-                    >
-                      {user.website}
-                    </a>
-                  </div>
-                )}
-              </div>
-            </>
-          ))}
+              {user.website && (
+                <div className="flex gap-1 items-center">
+                  <LinkIcon />{" "}
+                  <a
+                    className="text-[#1D98F0] text-basicFont max-w-[13rem] truncate"
+                    href={user.website}
+                    target="_blank"
+                  >
+                    {user.website}
+                  </a>
+                </div>
+              )}
+            </div>
+          </>
+        ) : null}
         <div className="flex gap-1">
           <CalendarIcon />
           <span className="text-[#536471] text-basicFont ">
             Joined {month} {year}
           </span>
         </div>
+
         <div className="flex gap-3 text-[#536471] text-sm">
           <span>
             <b className="text-black">{user.following?.length}</b>{" "}
@@ -148,6 +157,7 @@ const Profile = () => {
           </span>
         </div>
       </div>
+
     </div>
   );
 };

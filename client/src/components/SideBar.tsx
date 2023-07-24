@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import i18n from "../i18";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp"
 
 interface SideBarProps {
   profPic: string;
@@ -56,9 +57,13 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
         <div>
           <img
             onClick={() => navigate(profile.username)}
-            src={`http://localhost:6060${profile.profilePic}`}
+            src={
+              (profile.profilePic &&
+                `http://localhost:6060${profile.profilePic}`) ||
+              defaultProfile
+            }
             alt="prof pic"
-            className="w-10 h-10 rounded-full object-cover mt-6"
+            className="w-10 h-10 rounded-full object-cover mt-6 md:cursor-pointer"
           />
           <h2 className="font-semibold mt-1">
             {profile.name} {profile.lastName}
@@ -85,7 +90,7 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
         <div>
           <div
             onClick={() => navigate(`/${profile.username}`)}
-            className="flex gap-6 items-center mt-8"
+            className="flex gap-6 items-center mt-8 md:cursor-pointer"
           >
             <ProfileIcon />
             <span className="text-xl font-medium"> {t("profile")}</span>
@@ -93,25 +98,25 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
 
           <div
             onClick={() => navigate(`/saved`)}
-            className="flex gap-6 items-center mt-8 flex-grow"
+            className="flex gap-6 items-center mt-8 flex-grow md:cursor-pointer"
           >
             <ShareIcon fill={"none"} stroke={"currentColor"} />
             <span className="text-xl font-medium"> {t("savedd")}</span>
           </div>
 
-          <div className="flex items-centers gap-5 mt-8">
+          <div className="flex items-centers gap-5 mt-8 ">
             <LangIcon />
             <select
               value={language}
               onChange={handleLanguageChange}
               id="language"
-              className=" w-32 text-xl font-medium  border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md"
+              className=" md:cursor-pointer w-32 text-xl font-medium  border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md"
             >
               <option value="" disabled selected>
                 {t("lang")}
               </option>
-              <option value="eng">{t("eng")}</option>
-              <option value="geo">{t("geo")}</option>
+              <option  value="eng">{t("eng")}</option>
+              <option   value="geo">{t("geo")}</option>
             </select>
           </div>
         </div>

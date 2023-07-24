@@ -19,16 +19,17 @@ const Login = () => {
 
   return (
     <div className="bg-[#f0f2f5] w-screen h-screen flex items-center font-rubik">
-      <div className="mr-auto ml-auto flex items-center">
-        <div className="w-50 mr-20">
-          <h1 className="text-[#1877F2] text-4xl font-bold mb-4">VibeNet</h1>
-          <p className="text-xl w-[500px] font-normal">
+      <div className="mr-auto ml-auto h-full flex items-center overflow-y-hidden mobile:max-xl:flex-col mobile:max-xl:py-8 mobile:max-xl:gap-32 mobile:max-xl:px-4">
+
+        <div className="w-50 mr-20 mobile:max-xl:mr-0 ">
+          <h1 className="text-[#1877F2] text-4xl font-bold mb-4 mobile:max-xl:mb-0">VibeNet</h1>
+          <p className="text-xl w-[500px] font-normal mobile:max-xl:hidden">
             "Connect, vibe, and explore the world on VibeNet – your ultimate
             social destination!"
           </p>
         </div>
 
-        <div className="bg-white p-5 w-96 rounded-lg shadow-custom">
+        <div className="bg-white p-5 w-96 rounded-lg shadow-custom mobile:max-xl:max-w-full">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
               className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877f2]"
@@ -50,9 +51,7 @@ const Login = () => {
             >
               Log in
             </button>
-            <a href="#" className="text-[#1877f2] mx-auto">
-              Forgot password?
-            </a>
+            
 
             <hr />
 
@@ -71,6 +70,7 @@ const Login = () => {
             <Register dialogRef={dialogRef} />
           </dialog>
         </div>
+
       </div>
     </div>
   );

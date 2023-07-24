@@ -5,6 +5,7 @@ import axios from "axios";
 import { usePostStore } from "../app/postSotre";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp"
 
 interface CommentSectionProps {
   commentDialogRef: React.RefObject<HTMLDialogElement>;
@@ -59,12 +60,18 @@ const CommentSection: React.FC<CommentSectionProps> = ({
     onCommentPost(res.data.comment);
   };
 
+
+  
+
+
+
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col ">
       <header className="flex justify-between px-4  pt-4 ">
         <h1 className="font-medium ">{t("commentss")}</h1>
 
         <div
+        className="md:cursor-pointer"
           onClick={() => {
             commentDialogRef.current ? commentDialogRef.current.close() : null;
           }}
@@ -102,7 +109,11 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 
         <div className="flex gap-2 border-t border-[#E4E6EB] p-2 ">
           <img
-            src={`http://localhost:6060${profile.profilePic}`}
+            src={
+              (profile.profilePic &&
+                `http://localhost:6060${profile.profilePic}`) ||
+              defaultProfile
+            }
             alt="prof pic"
             className="w-10 h-10 rounded-full object-cover"
           />
@@ -127,4 +138,4 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   );
 };
 
-export default CommentSection;
+export default CommentSection

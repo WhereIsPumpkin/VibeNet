@@ -38,7 +38,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
   };
 
   return (
-    <div className="bg-[#F0F2F5] flex gap-4 flex-col-reverse pt-2">
+    <div className="bg-[#F0F2F5] flex gap-4 flex-col-reverse pt-2 max-w-2xl md:shadow-customPost md:mx-auto md:min-w-[42rem] md:rounded-lg md:pt-0">
       {posts.map((post, index) => {
         if (!post.author) {
           // handle the case where post.author is undefined
@@ -47,19 +47,21 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
 
         return (
           <div
-            className="bg-white px-4 py-3 shadow-sm flex gap-3 font-rubik"
+            className="bg-white px-4 py-3 shadow-sm flex gap-3 font-rubik md:rounded-lg"
             key={index}
           >
             <img
               onClick={() => navigate(`/${post.author.username}`)}
               src={`http://localhost:6060${post.author.profilePic}`}
               alt="prof pic"
-              className="w-10 h-10 rounded-full object-cover"
+              className="w-10 h-10 rounded-full object-cover md:cursor-pointer"
             />
 
-            <div className="flex flex-col w-[19.125rem]">
-              <div className="max-w-full flex gap-1 items-center">
-                <h2 className=" text-[#0F1419] text-basicFont font-semibold max-w-[9rem] truncate">
+            <div className="flex flex-col w-[19.125rem] flex-grow">
+              <div className="max-w-full flex gap-1 items-center ">
+                <h2
+                onClick={() => navigate(`/${post.author.username}`)}
+                className=" text-[#0F1419] text-basicFont font-semibold max-w-[9rem] truncate md:cursor-pointer">
                   {post.author.name} {post.author.lastName}
                 </h2>
                 <span className="flex-grow truncate w-24">
@@ -69,6 +71,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                 </span>
                 {post.author._id == profile.id && (
                   <div
+                  className="md:cursor-pointer"
                     onClick={async () => {
                       try {
                         await axios.delete(`/api/posts/delete/${post._id}`);
@@ -113,7 +116,14 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                   </span>
                 )}
                 <span className="flex gap-[0.625rem] items-center text-[#65676B] text-basicFont ml-auto">
-                  <div className="flex gap-1 items-center">
+                  <div
+                  onClick={() => {
+                    commentDialogRef.current
+                      ? commentDialogRef.current.showModal()
+                      : null;
+                    setSelectedPost(post);
+                  }}
+                  className="flex gap-1 items-center md:cursor-pointer">
                     {post.commentCount} {t("comments")}
                   </div>
                   <div className="flex gap-1 items-center">
@@ -149,7 +159,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                   {t("like")}
                 </div>
                 <div
-                  className="flex gap-[0.3rem] font-medium items-center text-[#65676B] text-basicFont"
+                  className="flex gap-[0.3rem] font-medium items-center text-[#65676B] text-basicFont md:cursor-pointer"
                   onClick={() => {
                     commentDialogRef.current
                       ? commentDialogRef.current.showModal()
@@ -171,7 +181,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                       console.error(error);
                     }
                   }}
-                  className={`flex gap-[0.3rem] font-medium items-center text-[#65676B] `}
+                  className={`flex gap-[0.3rem] md:cursor-pointer font-medium items-center text-[#65676B] `}
                 >
                   <ShareIcon
                     stroke={
@@ -184,7 +194,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
               </div>
             </div>
             <dialog
-              className="min-w-full mt-auto mb-0 rounded-t-3xl shadow-lg p-0 focus:outline-none animate-fade-up animate-duration-100 animate-ease-linear overflow-y-hidden h-full"
+              className="min-w-full mt-auto mb-0 rounded-t-3xl shadow-lg p-0 focus:outline-none animate-fade-up animate-duration-100 animate-ease-linear overflow-y-hidden h-full max-w-4xl md:shadow-customPost md:rounded-lg md:mx-auto md:min-w-[56rem]"
               ref={commentDialogRef}
             >
               {selectedPost && (

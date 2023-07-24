@@ -7,6 +7,7 @@ import { MenuIcon, CloseIcon, PhotoIcon } from "../components/icons";
 import axios from "axios";
 import PostCard from "../components/PostCard";
 import { useTranslation } from "react-i18next";
+import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp";
 
 const HomePage = () => {
   const { t } = useTranslation();
@@ -81,11 +82,15 @@ const HomePage = () => {
       </div>
 
       <main className="bg-[#F0F2F5] h-full min-h-screen py-5 flex flex-col gap-4">
-        <div className=" bg-white  px-4 shadow-sm">
+        <div className=" bg-white  px-4 shadow-sm max-w-2xl md:shadow-customPost md:rounded-lg md:mx-auto md:min-w-[42rem]">
           <div className="flex gap-2  border-b border-[#E4E6EB]  py-3">
             <img
-              src={`http://localhost:6060${profile.profilePic}`}
-              alt="prof pic"
+              src={
+                (profile.profilePic &&
+                  `http://localhost:6060${profile.profilePic}`) ||
+                defaultProfile
+              }
+              alt="defaultProfile"
               className="w-10 h-10 rounded-full object-cover"
             />
 
@@ -148,7 +153,7 @@ const HomePage = () => {
                   !text && !image
                     ? "bg-gray-400"
                     : "bg-[#1877F2] hover:bg-blue-700"
-                } text-white font-bold py-2 px-7 rounded-full`}
+                } text-white font-bold py-2 px-7 rounded-full md:cursor-pointer`}
               >
                 Vibe
               </button>
