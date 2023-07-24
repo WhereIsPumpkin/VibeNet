@@ -1,4 +1,4 @@
-// import emailVerify from "../public/EmailVerify.png";
+import emailVerify from '/assets/EmailVerify.png';
 import gmailIcon from "../assets/gmail.svg";
 import outlookIcon from "../assets/outlook.svg";
 import axios from "axios";
@@ -34,9 +34,9 @@ const Verification = () => {
           </div>
         </div>
       )}
-      {/* <div className="w-[38.5%] bg-[#f7f9fa] h-screen flex items-center justify-center">
+      <div className="w-[38.5%] bg-[#f7f9fa] h-screen flex items-center justify-center">
         <img src={emailVerify} className="mr-[-295px]" alt="sign up banner" />
-      </div> */}
+      </div>
 
       <div className="w-full h-screen flex flex-col items-center justify-center">
         <h1 className="text-3xl font-medium mb-8">
