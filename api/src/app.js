@@ -12,7 +12,7 @@ import {
   updateProfile,
   getUsersProfile,
   toggleFollow,
-} from "../src/controllers/userController.js";
+} from "./controllers/user-controller.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -24,7 +24,7 @@ import {
   likePost,
   addComment,
   savePost,
-} from "../src/controllers/postController.js";
+} from "./controllers/post-controller.js";
 
 const app = express();
 
