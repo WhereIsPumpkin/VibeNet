@@ -62,6 +62,7 @@ app.post("/api/posts/save/:postId/:userId", authMiddleware, savePost);
 app.use("/", express.static("./public"));
 app.use("/", ...swaggerMiddleware);
 
-app.listen(6060, () => {
-  console.log("Server is running on port 6060");
+const port = process.env.PORT || 6060;
+app.listen(port, "0.0.0.0", function () {
+  console.log(`Server is running on ${port}`);
 });
