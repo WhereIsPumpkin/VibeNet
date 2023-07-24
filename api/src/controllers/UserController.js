@@ -177,9 +177,7 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const lowercaseEmail = email.toLowerCase();
-    const existingUser = await User.findOne({ email: lowercaseEmail }).populate(
-      "savedPosts"
-    );
+    const existingUser = await User.findOne({ email: lowercaseEmail });
 
     if (existingUser) {
       const passOk = bycript.compareSync(password, existingUser.password);
@@ -224,6 +222,22 @@ export const getProfile = async (req, res) => {
     });
   } else {
     res.status(401).json("no token");
+  }
+};
+
+export const getUsersProfile = async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    const currentUser = await User.findOne({ username });
+
+    if (!currentUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json(currentUser);
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
   }
 };
 
@@ -297,5 +311,58 @@ export const updateProfile = async (req, res) => {
     res.status(200).json({ message: "Profile updated successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const toggleFollow = async (req, res) => {
+  try {
+    const { userId, followId } = req.params;
+    let user = await User.findById(userId);
+    let message;
+    if (user.following.includes(followId)) {
+      await User.findByIdAndUpdate(userId, { $pull: { following: followId } });
+      await User.findByIdAndUpdate(followId, { $pull: { followers: userId } });
+      message = "Unfollow successful";
+    } else {
+      await User.findByIdAndUpdate(userId, {
+        $addToSet: { following: followId },
+      });
+      await User.findByIdAndUpdate(followId, {
+        $addToSet: { followers: userId },
+      });
+      message = "Follow successful";
+    }
+
+    // Refetch user data from database
+    user = await User.findById(userId);
+
+    // Update JWT token
+    const payload = {
+      id: user._id,
+      name: user.name,
+      lastName: user.lastName,
+      email: user.email,
+      username: user.username,
+      gender: user.gender,
+      bio: user.bio,
+      location: user.location,
+      website: user.website,
+      registrationDate: user.registrationDate,
+      coverPic: user.coverPic,
+      profilePic: user.profilePic,
+      savedPosts: user.savedPosts.map((post) => post._id),
+      followers: user.followers,
+      following: user.following,
+    };
+    const newToken = jwt.sign(payload, jwtSecret);
+
+    // Send the new token back to the client in a cookie
+    res.cookie("token", newToken, { sameSite: "none", secure: true });
+
+    // Send response
+    res.status(200).json({ message });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
   }
 };

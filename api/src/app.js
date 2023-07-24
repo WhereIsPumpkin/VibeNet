@@ -10,6 +10,8 @@ import {
   loginUser,
   getProfile,
   updateProfile,
+  getUsersProfile,
+  toggleFollow,
 } from "./controllers/userController.js";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -45,15 +47,17 @@ app.post("/api/verify", verifyUser);
 app.post("/api/login", loginUser);
 app.post("/api/update", uploadFields, authMiddleware, updateProfile);
 app.post("/api/posts/upload", uploadFields, createPost);
+app.post("/api/toggleFollow/:userId/:followId", toggleFollow);
 
 app.get("/api/profile", getProfile);
 app.get("/api/posts/getPosts", getPosts);
 
 app.delete("/api/posts/delete/:id", deletePost);
 
+app.post("/api/profile/user", getUsersProfile);
 app.post("/api/posts/like/:postId/:userId", authMiddleware, likePost);
 app.post("/api/posts/comment/:postId/:userId", authMiddleware, addComment);
-app.post("/api/posts/save/:postId/:userId", savePost);
+app.post("/api/posts/save/:postId/:userId", authMiddleware, savePost);
 
 app.use("/", express.static("./public"));
 app.use("/", ...swaggerMiddleware);

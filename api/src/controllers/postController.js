@@ -26,6 +26,9 @@ export const createPost = async (req, res) => {
     // save the post to the database
     await newPost.save();
 
+    // Add the new post to the posts array of the author
+    await User.findByIdAndUpdate(author, { $push: { posts: newPost._id } });
+
     // fetch the updated post with likes information
     const updatedPost = await Post.findById(newPost._id).populate("author");
 
@@ -62,6 +65,7 @@ export const deletePost = async (req, res) => {
   const postId = req.params.id;
   try {
     await Post.deleteOne({ _id: postId });
+    await User.updateMany({ posts: postId }, { $pull: { posts: postId } });
     return res.status(200).json({ message: "Post deleted successfully" });
   } catch (err) {
     return res.status(500).json({ err, message: "Error deleting post" });
