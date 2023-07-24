@@ -32,7 +32,12 @@ dotenv.config();
 connect();
 
 let corsOptions = {
-  origin: ["http://localhost:5173", "http://localhost:6060"],
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:6060",
+    "https://vibenet-jhkhwba94-whereispumpkin.vercel.app",
+    "https://vibenetapi.up.railway.app",
+  ],
   credentials: true,
 };
 
