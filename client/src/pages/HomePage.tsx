@@ -9,6 +9,8 @@ import PostCard from "../components/PostCard";
 import { useTranslation } from "react-i18next";
 import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp";
 
+const backendURL = "http://localhost:6060";
+
 const HomePage = () => {
   const { t } = useTranslation();
   const { profile } = useStore();
@@ -86,8 +88,7 @@ const HomePage = () => {
           <div className="flex gap-2  border-b border-[#E4E6EB]  py-3">
             <img
               src={
-                (profile.profilePic &&
-                  `http://localhost:6060${profile.profilePic}`) ||
+                (profile.profilePic && `${backendURL}${profile.profilePic}`) ||
                 defaultProfile
               }
               alt="defaultProfile"

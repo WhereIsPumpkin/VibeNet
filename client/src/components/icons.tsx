@@ -257,7 +257,7 @@ export const CommentIcon = ({ className = "w-6 h-6" }) => {
   );
 };
 
-export const ShareIcon = ({ fill, stroke }) => {
+export const ShareIcon: React.FC<LikeIconProps> = ({ fill, stroke }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -8,6 +8,7 @@ import Saved from "./pages/Saved.tsx";
 import i18n from "./i18.ts";
 import { I18nextProvider } from "react-i18next";
 
+
 function App() {
   axios.defaults.baseURL = "http://localhost:6060";
   axios.defaults.withCredentials = true;
