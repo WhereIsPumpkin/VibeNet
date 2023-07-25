@@ -6,14 +6,20 @@ const Login = () => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       await axios.post("/api/login", { email, password });
       window.location.reload();
-    } catch (error) {
-      console.error(error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        console.error(error);
+      }
     }
   };
 
@@ -52,6 +58,9 @@ const Login = () => {
               onChange={(event) => setPassword(event.target.value)}
               autoComplete="current-password"
             />
+
+            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+
             <button
               type="submit"
               className="h-12 rounded-md bg-[#1877f2] text-xl font-medium text-white"
