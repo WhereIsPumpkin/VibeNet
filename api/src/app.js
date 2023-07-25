@@ -32,8 +32,8 @@ dotenv.config();
 connect();
 
 let corsOptions = {
-  origin: "http://localhost:5173",
-  credentials: false,
+  origin: "*",
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
