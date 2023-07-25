@@ -5,7 +5,9 @@ info:
   version: 1.0.0
 
 servers:
-  - url: http://localhost:6060/
+  - url: https://vibenetapi.up.railway.app/
+    description: production server
+  - url: http://localhost:6060
     description: local server
 
 paths:
