@@ -33,7 +33,7 @@ connect();
 
 let corsOptions = {
   origin: "*",
-  credentials: true,
+  credentials: false,
 };
 
 app.use(cors(corsOptions));
