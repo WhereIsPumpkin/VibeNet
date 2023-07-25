@@ -12,6 +12,7 @@ import {
   updateProfile,
   getUsersProfile,
   toggleFollow,
+  logOut,
 } from "./controllers/user-controller.js";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -32,7 +33,11 @@ dotenv.config();
 connect();
 
 let corsOptions = {
-  origin: "*",
+  origin: [
+    "http://localhost:5173",
+    "https://vibenetapi.up.railway.app",
+    "https://vibenett.vercel.app",
+  ],
   credentials: true,
 };
 
@@ -58,6 +63,7 @@ app.post("/api/profile/user", getUsersProfile);
 app.post("/api/posts/like/:postId/:userId", authMiddleware, likePost);
 app.post("/api/posts/comment/:postId/:userId", authMiddleware, addComment);
 app.post("/api/posts/save/:postId/:userId", authMiddleware, savePost);
+app.post("/logout", logOut);
 
 app.use("/", express.static("./public"));
 app.use("/", ...swaggerMiddleware);

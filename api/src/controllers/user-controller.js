@@ -366,3 +366,7 @@ export const toggleFollow = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const logOut = async (req, res) => {
+  res.cookie("token", "", { sameSite: "none", secure: true }).json("ok");
+};
