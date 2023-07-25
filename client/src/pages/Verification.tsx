@@ -25,10 +25,10 @@ const Verification = () => {
   };
 
   return (
-    <div className="flex font-rubik relative">
+    <div className="relative flex font-rubik">
       {showPopup && (
-        <div className="fixed left-1/2 transform -translate-x-1/2 top-3 transition-all duration-300">
-          <div className="flex gap-1 bg-[#fff2f5] items-center p-4 rounded-lg">
+        <div className="fixed left-1/2 top-3 -translate-x-1/2 transform transition-all duration-300">
+          <div className="flex items-center gap-1 rounded-lg bg-[#fff2f5] p-4">
             <ErrorXicon />
             <p>The verification code you've entered is incorrect.</p>
           </div>
@@ -38,11 +38,11 @@ const Verification = () => {
         <img src={emailVerify} className="mr-[-295px]" alt="sign up banner" />
       </div> */}
 
-      <div className="w-full h-screen flex flex-col items-center justify-center">
-        <h1 className="text-3xl font-medium mb-8">
+      <div className="flex h-screen w-full flex-col items-center justify-center">
+        <h1 className="mb-8 text-center text-3xl font-medium">
           Check Your Email for A Code
         </h1>
-        <p className="text-sm mb-3">
+        <p className="mb-3 text-center text-sm">
           Please enter the verification code sent to your email address{" "}
           <b>{email}</b>
         </p>
@@ -53,14 +53,14 @@ const Verification = () => {
           renderInput={(props) => (
             <input
               {...props}
-              className="h-[60px] border border-[#6e7680] text-xl text-center mr-[10px] rounded-xl !w-11 focus:outline-none focus:outline-blue-600  "
+              className="mr-[10px] h-[60px] !w-11 rounded-xl border border-[#6e7680] text-center text-xl focus:outline-none focus:outline-blue-600  "
             />
           )}
         />
         <button
           onClick={handleVerify}
           type="submit"
-          className={`w-[346px] h-[40px] text-white rounded-[10px] mt-6 ${
+          className={`mt-6 h-[40px] w-[346px] rounded-[10px] text-white ${
             otp.length === 6 ? "bg-[#0e72ed]" : "bg-gray-300 text-[#6e7680]"
           }`}
           disabled={otp.length !== 6}
@@ -68,9 +68,9 @@ const Verification = () => {
           Verify
         </button>
 
-        <div className="flex gap-6 mt-12">
+        <div className="mt-12 flex gap-6">
           <button
-            className="flex border border-[rgba(35,35,51,.2)] items-center gap-2 p-3 rounded-lg"
+            className="flex items-center gap-2 rounded-lg border border-[rgba(35,35,51,.2)] p-3"
             onClick={() =>
               window.open(
                 "https://gmail.com",
@@ -83,7 +83,7 @@ const Verification = () => {
           </button>
 
           <button
-            className="flex border border-[rgba(35,35,51,.2)] items-center gap-2 p-3 rounded-lg"
+            className="flex items-center gap-2 rounded-lg border border-[rgba(35,35,51,.2)] p-3"
             onClick={() =>
               window.open(
                 "https://outlook.live.com/",

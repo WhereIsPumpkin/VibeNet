@@ -12,7 +12,7 @@ export const ErrorXicon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="white"
-      className="w-7 h-7"
+      className="h-7 w-7"
     >
       <path
         strokeLinecap="round"
@@ -31,7 +31,7 @@ export const CloseIcon = ({ color }: { color: string }) => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke={color}
-      className="w-6 h-6"
+      className="h-6 w-6"
     >
       <path
         strokeLinecap="round"
@@ -50,7 +50,7 @@ export const ProfileIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="h-6 w-6"
     >
       <path
         strokeLinecap="round"
@@ -69,7 +69,7 @@ export const GoBackIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-5 h-5"
+      className="h-5 w-5"
     >
       <path
         strokeLinecap="round"
@@ -104,7 +104,7 @@ export const CalendarIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="#536471"
-      className="w-5 h-5"
+      className="h-5 w-5"
     >
       <path
         strokeLinecap="round"
@@ -123,7 +123,7 @@ export const LocationIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="#536471"
-      className="w-5 h-5"
+      className="h-5 w-5"
     >
       <path
         strokeLinecap="round"
@@ -147,7 +147,7 @@ export const LinkIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="#536471"
-      className="w-5 h-5"
+      className="h-5 w-5"
     >
       <path
         strokeLinecap="round"
@@ -166,7 +166,7 @@ export const MenuIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="#65676B"
-      className="w-8 h-8 md:cursor-pointer"
+      className="h-8 w-8 md:cursor-pointer"
     >
       <path
         strokeLinecap="round"
@@ -185,7 +185,7 @@ export const PhotoIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="#1877F2"
-      className="w-6 h-6"
+      className="h-6 w-6"
     >
       <path
         strokeLinecap="round"
@@ -204,7 +204,7 @@ export const DeleteIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="#d11a2a"
-      className="w-[1.172rem] h-[1.172rem]"
+      className="h-[1.172rem] w-[1.172rem]"
     >
       <path
         strokeLinecap="round"
@@ -228,7 +228,7 @@ export const LikeIcon: React.FC<LikeIconProps> = ({ fill, stroke }) => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke={stroke}
-      className="w-6 h-6"
+      className="h-6 w-6"
     >
       <path
         strokeLinecap="round"
@@ -265,7 +265,7 @@ export const ShareIcon: React.FC<LikeIconProps> = ({ fill, stroke }) => {
       fill={fill}
       stroke={stroke}
       strokeWidth={1.5}
-      className="w-6 h-6"
+      className="h-6 w-6"
     >
       <path
         fillRule="evenodd"
@@ -284,7 +284,7 @@ export const SendIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="#65676B"
-      className="w-5 h-5"
+      className="h-5 w-5"
     >
       <path
         strokeLinecap="round"
@@ -303,7 +303,7 @@ export const LogOutIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="#ff0000"
-      className="w-6 h-6"
+      className="h-6 w-6"
     >
       <path
         strokeLinecap="round"
@@ -322,7 +322,7 @@ export const LangIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-6 h-6"
+      className="h-6 w-6"
     >
       <path
         strokeLinecap="round"

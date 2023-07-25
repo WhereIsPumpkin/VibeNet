@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp"
+import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp";
 
 const SettingsProfile = () => {
   const backendURL = "https://vibenetapi.up.railway.app";
@@ -88,15 +88,12 @@ const SettingsProfile = () => {
 
   return (
     <div className="flex flex-col font-rubik">
-
-      <div className="flex items-center gap-9 px-4 h-14 ">
-        <div
-        className="md:cursor-pointer"
-        onClick={() => navigate(-1)}>
+      <div className="flex h-14 items-center gap-9 px-4 ">
+        <div className="md:cursor-pointer" onClick={() => navigate(-1)}>
           <GoBackIcon />
         </div>
 
-        <span className="text-[#0F1319] font-semibold text-l ">
+        <span className="text-l font-semibold text-[#0F1319] ">
           {t("editProf")}
         </span>
 
@@ -105,17 +102,17 @@ const SettingsProfile = () => {
         <button
           type="submit"
           form="updateForm"
-          className="m min-h-[2rem] bg-[#0F1319] rounded-2xl px-4 text-white font-semibold"
+          className="m min-h-[2rem] rounded-2xl bg-[#0F1319] px-4 font-semibold text-white"
         >
           {t("save")}
         </button>
       </div>
 
       <div
-        className="bg-[#CFD2DE] w-screen h-32 grid items-center justify-center bg-no-repeat bg-center md:mx-auto md:min-w-[42rem] md:rounded-lg md:max-w-[42rem] md:rounded-b-none"
+        className="grid h-32 w-screen items-center justify-center bg-[#CFD2DE] bg-center bg-no-repeat md:mx-auto md:min-w-[42rem] md:max-w-[42rem] md:rounded-lg md:rounded-b-none"
         style={{ backgroundImage: `url(${coverImage || profile.coverPic} )` }}
       >
-        <div className="bg-black/50 w-11 h-11 flex items-center justify-center rounded-full">
+        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-black/50">
           <button onClick={() => fileInputRef.current?.click()}>
             <AddImageIcon />
           </button>
@@ -129,22 +126,22 @@ const SettingsProfile = () => {
         </div>
       </div>
 
-      <div className="px-4 -mt-12 relative md:mx-auto md:min-w-[42rem] md:rounded-lg md:max-w-[42rem] md:rounded-b-none">
-        <div className="rounded-full border-4 border-white overflow-hidden w-24 h-24 flex items-center justify-center">
+      <div className="relative -mt-12 px-4 md:mx-auto md:min-w-[42rem] md:max-w-[42rem] md:rounded-lg md:rounded-b-none">
+        <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-4 border-white">
           <img
             src={
-              (profileImage || profile.profilePic &&
-                `${backendURL}${profile.profilePic}`) ||
+              profileImage ||
+              (profile.profilePic && `${backendURL}${profile.profilePic}`) ||
               defaultProfile
             }
             alt="profile img"
-            className="w-full h-full object-cover filter brightness-75"
+            className="h-full w-full object-cover brightness-75 filter"
           />
         </div>
 
         <button
           onClick={() => profileFileInputRef.current?.click()}
-          className=" bg-black/50 w-11 h-11 absolute left-16 -translate-x-1/2 top-1/2 -translate-y-1/2 rounded-full flex items-center justify-center"
+          className=" absolute left-16 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/50"
         >
           <AddImageIcon />
         </button>
@@ -160,13 +157,13 @@ const SettingsProfile = () => {
       <form
         id="updateForm"
         onSubmit={handlesubmit}
-        className="px-4 mt-3 relative group flex flex-col gap-4 md:mx-auto md:min-w-[42rem] md:rounded-lg md:max-w-[42rem] md:rounded-b-none"
+        className="group relative mt-3 flex flex-col gap-4 px-4 md:mx-auto md:min-w-[42rem] md:max-w-[42rem] md:rounded-lg md:rounded-b-none"
       >
         <div className="relative">
           <label
             htmlFor="name"
-            className={`absolute text-[#536471] text-[0.8125rem] top-1 left-2 ${
-              !profile.name ? "top-0 left-0" : null
+            className={`absolute left-2 top-1 text-[0.8125rem] text-[#536471] ${
+              !profile.name ? "left-0 top-0" : null
             }`}
           >
             {t("name")}
@@ -176,15 +173,15 @@ const SettingsProfile = () => {
             onChange={(event) => updateName(event.target.value)}
             id="name"
             type="text"
-            className="border border-[#ccd0d5] w-full px-2 h-14 rounded-[4px] pt-4 focus:outline-none text-[17px]"
+            className="h-14 w-full rounded-[4px] border border-[#ccd0d5] px-2 pt-4 text-[17px] focus:outline-none"
           />
         </div>
 
         <div className="relative">
           <label
             htmlFor="lastName"
-            className={`absolute text-[#536471] text-[0.8125rem] top-1 left-2 ${
-              !profile.lastName ? "top-0 left-0" : null
+            className={`absolute left-2 top-1 text-[0.8125rem] text-[#536471] ${
+              !profile.lastName ? "left-0 top-0" : null
             }`}
           >
             {t("lastName")}
@@ -194,7 +191,7 @@ const SettingsProfile = () => {
             onChange={(event) => updateLastName(event.target.value)}
             id="lastName"
             type="text"
-            className="border border-[#ccd0d5] w-full px-2 h-14 rounded-[4px] pt-4 focus:outline-none text-[17px]"
+            className="h-14 w-full rounded-[4px] border border-[#ccd0d5] px-2 pt-4 text-[17px] focus:outline-none"
           />
         </div>
 
@@ -202,14 +199,14 @@ const SettingsProfile = () => {
           placeholder="Bio"
           value={profile.bio}
           onChange={(event) => updateBio(event.target.value)}
-          className="w-full h-24 focus:outline-none rounded-md border border-[#ccd0d5] px-2 pt-2 resize-none"
+          className="h-24 w-full resize-none rounded-md border border-[#ccd0d5] px-2 pt-2 focus:outline-none"
         ></textarea>
 
         <div className="relative">
           <label
             htmlFor="website"
-            className={`absolute text-[#536471] text-[0.8125rem] top-1 left-2 ${
-              !profile.website ? "top-0 left-0" : null
+            className={`absolute left-2 top-1 text-[0.8125rem] text-[#536471] ${
+              !profile.website ? "left-0 top-0" : null
             }`}
           >
             {t("webSite")}
@@ -219,15 +216,15 @@ const SettingsProfile = () => {
             onChange={(event) => updateWebsite(event.target.value)}
             id="website"
             type="url"
-            className="border border-[#ccd0d5] w-full px-2 h-14 rounded-[4px] pt-4 focus:outline-none text-[17px]"
+            className="h-14 w-full rounded-[4px] border border-[#ccd0d5] px-2 pt-4 text-[17px] focus:outline-none"
           />
         </div>
 
         <div className="relative">
           <label
             htmlFor="location"
-            className={`absolute text-[#536471] text-[0.8125rem] top-1 left-2 ${
-              !profile.location ? "top-0 left-0" : null
+            className={`absolute left-2 top-1 text-[0.8125rem] text-[#536471] ${
+              !profile.location ? "left-0 top-0" : null
             }`}
           >
             {t("location")}
@@ -237,11 +234,10 @@ const SettingsProfile = () => {
             onChange={(event) => updateLocation(event.target.value)}
             id="location"
             type="text"
-            className="border border-[#ccd0d5] w-full px-2 h-14 rounded-[4px] pt-4 focus:outline-none text-[17px]"
+            className="h-14 w-full rounded-[4px] border border-[#ccd0d5] px-2 pt-4 text-[17px] focus:outline-none"
           />
         </div>
       </form>
-      
     </div>
   );
 };

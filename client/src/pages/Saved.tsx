@@ -19,17 +19,15 @@ const Saved = () => {
 
   return (
     <>
-      <div className="flex items-center gap-9 px-4 h-14 border-b border-[#BDC5CD] font-rubik">
-        <div
-        className="md:cursor-pointer"
-        onClick={() => navigate(-1)}>
+      <div className="flex h-14 items-center gap-9 border-b border-[#BDC5CD] px-4 font-rubik">
+        <div className="md:cursor-pointer" onClick={() => navigate(-1)}>
           <GoBackIcon />
         </div>
         <div className="flex flex-col">
-          <span className="text-[#0F1319] font-semibold text-l">
+          <span className="text-l font-semibold text-[#0F1319]">
             {profile.name} {profile.lastName}
           </span>
-          <span className="text-[#546471] text-xxs">
+          <span className="text-xxs text-[#546471]">
             {savedPosts.length} Saved
           </span>
         </div>

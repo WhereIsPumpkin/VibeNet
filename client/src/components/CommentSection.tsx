@@ -5,7 +5,7 @@ import axios from "axios";
 import { usePostStore } from "../app/postSotre";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp"
+import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp";
 
 interface CommentSectionProps {
   commentDialogRef: React.RefObject<HTMLDialogElement>;
@@ -22,7 +22,7 @@ interface CommentSectionProps {
         };
         content: string;
         createdAt: Date;
-      },
+      }
     ];
     commentCount: number;
   };
@@ -62,18 +62,13 @@ const CommentSection: React.FC<CommentSectionProps> = ({
     onCommentPost(res.data.comment);
   };
 
-
-  
-
-
-
   return (
-    <div className="h-full flex flex-col ">
+    <div className="flex h-full flex-col ">
       <header className="flex justify-between px-4  pt-4 ">
         <h1 className="font-medium ">{t("commentss")}</h1>
 
         <div
-        className="md:cursor-pointer"
+          className="md:cursor-pointer"
           onClick={() => {
             commentDialogRef.current ? commentDialogRef.current.close() : null;
           }}
@@ -82,20 +77,20 @@ const CommentSection: React.FC<CommentSectionProps> = ({
         </div>
       </header>
 
-      <hr className="bg-[#65676B] h-[1px]  w-full mt-2" />
+      <hr className="mt-2 h-[1px]  w-full bg-[#65676B]" />
 
-      <main className="flex flex-col !flex-grow max-h-[93.5%] justify-between">
-        <div className="flex flex-col gap-3 p-4 pb-0 flex-grow overflow-y-scroll">
+      <main className="flex max-h-[93.5%] !flex-grow flex-col justify-between">
+        <div className="flex flex-grow flex-col gap-3 overflow-y-scroll p-4 pb-0">
           {post.comments.map((comment, index) => (
-            <div ref={scroll} className="flex gap-2 items-start " key={index}>
+            <div ref={scroll} className="flex items-start gap-2 " key={index}>
               <div
-                className="bg-cover bg-no-repeat bg-center w-7 h-7 rounded-full min-w-7 min-h-7 flex-shrink-0"
+                className="min-w-7 min-h-7 h-7 w-7 flex-shrink-0 rounded-full bg-cover bg-center bg-no-repeat"
                 style={{
                   backgroundImage: `url(${backendURL}${comment.user.profilePic})`,
                 }}
               ></div>
 
-              <div className="flex flex-col max-w-[20.125rem] break-words	">
+              <div className="flex max-w-[20.125rem] flex-col break-words	">
                 <span className="text-[0.7rem] text-[#65676B] ">
                   @{comment.user.username} •{" "}
                   {moment(comment.createdAt).fromNow()}
@@ -112,24 +107,23 @@ const CommentSection: React.FC<CommentSectionProps> = ({
         <div className="flex gap-2 border-t border-[#E4E6EB] p-2 ">
           <img
             src={
-              (profile.profilePic &&
-                `${backendURL}${profile.profilePic}`) ||
+              (profile.profilePic && `${backendURL}${profile.profilePic}`) ||
               defaultProfile
             }
             alt="prof pic"
-            className="w-10 h-10 rounded-full object-cover"
+            className="h-10 w-10 rounded-full object-cover"
           />
 
-          <form onSubmit={handleSubmit} className="w-full relative">
+          <form onSubmit={handleSubmit} className="relative w-full">
             <input
-              className="w-full rounded-2xxl bg-[#F0F2F5] focus:outline-none pl-3 pr-11 py-2 resize-none overflow-hidden"
+              className="w-full resize-none overflow-hidden rounded-2xxl bg-[#F0F2F5] py-2 pl-3 pr-11 focus:outline-none"
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder={`${t("whatMind")}, ${profile.name}? `}
             />
             <button
               type="submit"
-              className="absolute  top-1/2 -translate-y-1/2 right-3"
+              className="absolute  right-3 top-1/2 -translate-y-1/2"
             >
               <SendIcon />
             </button>
@@ -140,4 +134,4 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   );
 };
 
-export default CommentSection
+export default CommentSection;

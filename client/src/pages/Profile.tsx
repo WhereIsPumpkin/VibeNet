@@ -9,7 +9,7 @@ import {
   LinkIcon,
 } from "../components/icons";
 import { useTranslation } from "react-i18next";
-import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp"
+import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -23,7 +23,6 @@ const Profile = () => {
   const year = date.getFullYear();
   const backendURL = "https://vibenetapi.up.railway.app";
 
-  
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -51,17 +50,15 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col font-rubik">
-      <div className="flex items-center gap-9 px-4 h-14">
-        <div 
-        className="md:cursor-pointer"
-        onClick={() => navigate(-1)}>
+      <div className="flex h-14 items-center gap-9 px-4">
+        <div className="md:cursor-pointer" onClick={() => navigate(-1)}>
           <GoBackIcon />
         </div>
         <div className="flex flex-col">
-          <span className="text-[#0F1319] font-semibold text-l">
+          <span className="text-l font-semibold text-[#0F1319]">
             {user.name} {user.lastName}
           </span>
-          <span className="text-[#546471] text-xxs">
+          <span className="text-xxs text-[#546471]">
             {user?.posts?.length} {t("posts")}
           </span>
         </div>
@@ -71,17 +68,16 @@ const Profile = () => {
         style={{
           backgroundImage: `url(${backendURL}${user.coverPic})`,
         }}
-        className="bg-[#CFD9DE] w-screen h-32 ceter bg-no-repeat bg-center  md:mx-auto md:min-w-[42rem] md:rounded-lg md:max-w-[42rem] md:rounded-b-none"
+        className="ceter h-32 w-screen bg-[#CFD9DE] bg-center bg-no-repeat  md:mx-auto md:min-w-[42rem] md:max-w-[42rem] md:rounded-lg md:rounded-b-none"
       ></div>
 
-      <div className="px-4 flex flex-col gap-2 md:shadow-customPost md:mx-auto md:min-w-[42rem] md:rounded-lg md:rounded-t-none">
-        <div className="flex justify-between items-center">
-          <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white -mt-10 flex items-center justify-center">
+      <div className="flex flex-col gap-2 px-4 md:mx-auto md:min-w-[42rem] md:rounded-lg md:rounded-t-none md:shadow-customPost">
+        <div className="flex items-center justify-between">
+          <div className="-mt-10 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border-2 border-white">
             <img
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
               src={
-                (user.profilePic &&
-                  `${backendURL}${user.profilePic}`) ||
+                (user.profilePic && `${backendURL}${user.profilePic}`) ||
                 defaultProfile
               }
             />
@@ -89,14 +85,14 @@ const Profile = () => {
           {profile.username === username ? (
             <button
               onClick={() => navigate("/settings/profile")}
-              className="border border-[#CFD9DE] rounded-2xl text-[#0F1319] font-semibold px-3 mt-3 py-[0.625rem] max-h-9 flex items-center text-basicFont"
+              className="mt-3 flex max-h-9 items-center rounded-2xl border border-[#CFD9DE] px-3 py-[0.625rem] text-basicFont font-semibold text-[#0F1319]"
             >
               {t("editProf")}
             </button>
           ) : (
             <button
               onClick={handleFollow}
-              className={`border rounded-3xl font-medium px-4 py-2 mt-3 max-h-9 flex items-center text-basicFont ${
+              className={`mt-3 flex max-h-9 items-center rounded-3xl border px-4 py-2 text-basicFont font-medium ${
                 profile.following?.includes(user._id)
                   ? "border-[#CFD9DE] bg-transparent text-[#0F1319]"
                   : "border-[#0F1319] bg-[#0F1319] text-white"
@@ -107,29 +103,29 @@ const Profile = () => {
           )}
         </div>
         <div>
-          <h2 className="text-[#0F1419] text-xl font-bold">
+          <h2 className="text-xl font-bold text-[#0F1419]">
             {user.name} {user.lastName}
           </h2>
-          <span className="text-[#536471] text-basicFont">
+          <span className="text-basicFont text-[#536471]">
             @{user.username}
           </span>
         </div>
         {user.bio || user.website || user.location ? (
           <>
             {user.bio && (
-              <div className="text-[#536471] text-basicFont">{user.bio} </div>
+              <div className="text-basicFont text-[#536471]">{user.bio} </div>
             )}
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-2">
               {user.location && (
-                <div className="flex gap-1 text-[#536471] text-basicFont items-center">
+                <div className="flex items-center gap-1 text-basicFont text-[#536471]">
                   <LocationIcon /> {user.location}
                 </div>
               )}
               {user.website && (
-                <div className="flex gap-1 items-center">
+                <div className="flex items-center gap-1">
                   <LinkIcon />{" "}
                   <a
-                    className="text-[#1D98F0] text-basicFont max-w-[13rem] truncate"
+                    className="max-w-[13rem] truncate text-basicFont text-[#1D98F0]"
                     href={user.website}
                     target="_blank"
                   >
@@ -142,12 +138,12 @@ const Profile = () => {
         ) : null}
         <div className="flex gap-1">
           <CalendarIcon />
-          <span className="text-[#536471] text-basicFont ">
+          <span className="text-basicFont text-[#536471] ">
             Joined {month} {year}
           </span>
         </div>
 
-        <div className="flex gap-3 text-[#536471] text-sm">
+        <div className="flex gap-3 text-sm text-[#536471]">
           <span>
             <b className="text-black">{user.following?.length}</b>{" "}
             {t("following")}
@@ -158,7 +154,6 @@ const Profile = () => {
           </span>
         </div>
       </div>
-
     </div>
   );
 };

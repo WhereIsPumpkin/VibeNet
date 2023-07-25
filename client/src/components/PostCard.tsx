@@ -40,7 +40,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
   const backendURL = "https://vibenetapi.up.railway.app";
 
   return (
-    <div className="bg-[#F0F2F5] flex gap-4 flex-col-reverse pt-2 max-w-2xl md:shadow-customPost md:mx-auto md:min-w-[42rem] md:rounded-lg md:pt-0">
+    <div className="flex max-w-2xl flex-col-reverse gap-4 bg-[#F0F2F5] pt-2 md:mx-auto md:min-w-[42rem] md:rounded-lg md:pt-0 md:shadow-customPost">
       {posts.map((post, index) => {
         if (!post.author) {
           // handle the case where post.author is undefined
@@ -49,31 +49,32 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
 
         return (
           <div
-            className="bg-white px-4 py-3 shadow-sm flex gap-3 font-rubik md:rounded-lg"
+            className="flex gap-3 bg-white px-4 py-3 font-rubik shadow-sm md:rounded-lg"
             key={index}
           >
             <img
               onClick={() => navigate(`/${post.author.username}`)}
               src={`${backendURL}${post.author.profilePic}`}
               alt="prof pic"
-              className="w-10 h-10 rounded-full object-cover md:cursor-pointer"
+              className="h-10 w-10 rounded-full object-cover md:cursor-pointer"
             />
 
-            <div className="flex flex-col w-[19.125rem] flex-grow">
-              <div className="max-w-full flex gap-1 items-center ">
+            <div className="flex w-[19.125rem] flex-grow flex-col">
+              <div className="flex max-w-full items-center gap-1 ">
                 <h2
-                onClick={() => navigate(`/${post.author.username}`)}
-                className=" text-[#0F1419] text-basicFont font-semibold max-w-[9rem] truncate md:cursor-pointer">
+                  onClick={() => navigate(`/${post.author.username}`)}
+                  className=" max-w-[9rem] truncate text-basicFont font-semibold text-[#0F1419] md:cursor-pointer"
+                >
                   {post.author.name} {post.author.lastName}
                 </h2>
-                <span className="flex-grow truncate w-24">
-                  <span className=" text-basicFont text-[#65676B] w-[7.5rem] truncate">
+                <span className="w-24 flex-grow truncate">
+                  <span className=" w-[7.5rem] truncate text-basicFont text-[#65676B]">
                     @{post.author.username}
                   </span>
                 </span>
                 {post.author._id == profile.id && (
                   <div
-                  className="md:cursor-pointer"
+                    className="md:cursor-pointer"
                     onClick={async () => {
                       try {
                         await axios.delete(`/api/posts/delete/${post._id}`);
@@ -88,21 +89,21 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                 )}
               </div>
               <div>
-                <div className="flex items-center gap-1 flex-grow">
+                <div className="flex flex-grow items-center gap-1">
                   <span className="text-xxs text-[#65676B]">
                     {moment(post.createdAt).fromNow()}
                   </span>
                 </div>
               </div>
               <p
-                className={`text-[#050505] break-words ${
+                className={`break-words text-[#050505] ${
                   !post.postImage ? "mb-4" : null
                 }`}
               >
                 {post.content}
               </p>
               {post.postImage && (
-                <div className="mt-3 border border-[#CFD9DE] rounded-2xl overflow-hidden">
+                <div className="mt-3 overflow-hidden rounded-2xl border border-[#CFD9DE]">
                   <img
                     src={`${backendURL}${post.postImage}`}
                     alt="post image"
@@ -110,31 +111,32 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                   />
                 </div>
               )}
-              <div className="w-full flex items-center h-10 ">
+              <div className="flex h-10 w-full items-center ">
                 {post.likeCount > 0 && (
-                  <span className="flex gap-1 items-center text-[#65676B] text-basicFont">
+                  <span className="flex items-center gap-1 text-basicFont text-[#65676B]">
                     <LikeIcon stroke={"none"} fill={"#F91880"} />{" "}
                     {post.likeCount}
                   </span>
                 )}
-                <span className="flex gap-[0.625rem] items-center text-[#65676B] text-basicFont ml-auto">
+                <span className="ml-auto flex items-center gap-[0.625rem] text-basicFont text-[#65676B]">
                   <div
-                  onClick={() => {
-                    commentDialogRef.current
-                      ? commentDialogRef.current.showModal()
-                      : null;
-                    setSelectedPost(post);
-                  }}
-                  className="flex gap-1 items-center md:cursor-pointer">
+                    onClick={() => {
+                      commentDialogRef.current
+                        ? commentDialogRef.current.showModal()
+                        : null;
+                      setSelectedPost(post);
+                    }}
+                    className="flex items-center gap-1 md:cursor-pointer"
+                  >
                     {post.commentCount} {t("comments")}
                   </div>
-                  <div className="flex gap-1 items-center">
+                  <div className="flex items-center gap-1">
                     {post.saveCount} {t("saves")}
                   </div>
                 </span>
               </div>
               <hr />
-              <div className="pt-[0.625rem] px-2 flex justify-between items-center">
+              <div className="flex items-center justify-between px-2 pt-[0.625rem]">
                 <div
                   onClick={async () => {
                     const postId = post._id;
@@ -146,7 +148,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                       console.error(error);
                     }
                   }}
-                  className={`flex gap-[0.3rem] font-medium items-center text-basicFont md:cursor-pointer transform active:scale-95 transition-transform ${
+                  className={`flex transform items-center gap-[0.3rem] text-basicFont font-medium transition-transform active:scale-95 md:cursor-pointer ${
                     post.likes.includes(profile.id)
                       ? "text-[#F33E58]"
                       : "text-[#65676B]"
@@ -161,7 +163,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                   {t("like")}
                 </div>
                 <div
-                  className="flex gap-[0.3rem] font-medium items-center text-[#65676B] text-basicFont md:cursor-pointer"
+                  className="flex items-center gap-[0.3rem] text-basicFont font-medium text-[#65676B] md:cursor-pointer"
                   onClick={() => {
                     commentDialogRef.current
                       ? commentDialogRef.current.showModal()
@@ -183,7 +185,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
                       console.error(error);
                     }
                   }}
-                  className={`flex gap-[0.3rem] md:cursor-pointer font-medium items-center text-[#65676B] `}
+                  className={`flex items-center gap-[0.3rem] font-medium text-[#65676B] md:cursor-pointer `}
                 >
                   <ShareIcon
                     stroke={
@@ -196,7 +198,7 @@ const PostCard = ({ posts, profile }: PostCardProps) => {
               </div>
             </div>
             <dialog
-              className="min-w-full mt-auto mb-0 rounded-t-3xl shadow-lg p-0 focus:outline-none animate-fade-up animate-duration-100 animate-ease-linear overflow-y-hidden h-full max-w-4xl md:shadow-customPost md:rounded-lg md:mx-auto md:min-w-[56rem]"
+              className="mb-0 mt-auto h-full min-w-full max-w-4xl animate-fade-up overflow-y-hidden rounded-t-3xl p-0 shadow-lg animate-duration-100 animate-ease-linear focus:outline-none md:mx-auto md:min-w-[56rem] md:rounded-lg md:shadow-customPost"
               ref={commentDialogRef}
             >
               {selectedPost && (
