@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 import i18n from "../i18";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp"
+import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp";
+import axios from "axios";
 
 interface SideBarProps {
   profPic: string;
@@ -42,10 +43,10 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-between h-screen px-4 py-4">
+    <div className="flex h-screen flex-col justify-between px-4 py-4">
       <div>
-        <header className="flex items-center justify-between max-w-[280px]">
-          <h1 className="f font-medium text-l">{t("accInfo")}</h1>
+        <header className="flex max-w-[280px] items-center justify-between">
+          <h1 className="f text-l font-medium">{t("accInfo")}</h1>
           <div
             className="md:cursor-pointer"
             onClick={() => {
@@ -60,28 +61,27 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
           <img
             onClick={() => navigate(profile.username)}
             src={
-              (profile.profilePic &&
-                `${backendURL}${profile.profilePic}`) ||
+              (profile.profilePic && `${backendURL}${profile.profilePic}`) ||
               defaultProfile
             }
             alt="prof pic"
-            className="w-10 h-10 rounded-full object-cover mt-6 md:cursor-pointer"
+            className="mt-6 h-10 w-10 rounded-full object-cover md:cursor-pointer"
           />
-          <h2 className="font-semibold mt-1">
+          <h2 className="mt-1 font-semibold">
             {profile.name} {profile.lastName}
           </h2>
-          <span className="text-[#536471] font-normal text-basicFont">
+          <span className="text-basicFont font-normal text-[#536471]">
             @{profile.username}
           </span>
-          <div className="flex items-center gap-4 mt-2">
-            <span className="text-[#536471] font-light text-sm">
-              <b className="text-[#0F1419] font-semibold">
+          <div className="mt-2 flex items-center gap-4">
+            <span className="text-sm font-light text-[#536471]">
+              <b className="font-semibold text-[#0F1419]">
                 {profile?.following?.length || 0}
               </b>{" "}
               {t("following")}
             </span>
-            <span className="text-[#536471] font-light text-sm">
-              <b className="text-[#0F1419] font-semibold">
+            <span className="text-sm font-light text-[#536471]">
+              <b className="font-semibold text-[#0F1419]">
                 {profile?.followers?.length || 0}
               </b>{" "}
               {t("follower")}
@@ -92,7 +92,7 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
         <div>
           <div
             onClick={() => navigate(`/${profile.username}`)}
-            className="flex gap-6 items-center mt-8 md:cursor-pointer"
+            className="mt-8 flex items-center gap-6 md:cursor-pointer"
           >
             <ProfileIcon />
             <span className="text-xl font-medium"> {t("profile")}</span>
@@ -100,37 +100,37 @@ const SideBar: React.FC<SideBarProps> = ({ dialogRef }) => {
 
           <div
             onClick={() => navigate(`/saved`)}
-            className="flex gap-6 items-center mt-8 flex-grow md:cursor-pointer"
+            className="mt-8 flex flex-grow items-center gap-6 md:cursor-pointer"
           >
             <ShareIcon fill={"none"} stroke={"currentColor"} />
             <span className="text-xl font-medium"> {t("savedd")}</span>
           </div>
 
-          <div className="flex items-centers gap-5 mt-8 ">
+          <div className="items-centers mt-8 flex gap-5 ">
             <LangIcon />
             <select
               value={language}
               onChange={handleLanguageChange}
               id="language"
-              className=" md:cursor-pointer w-32 text-xl font-medium  border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md"
+              className=" w-32 rounded-md border-gray-300 text-xl  font-medium focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 md:cursor-pointer"
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 {t("lang")}
               </option>
-              <option  value="eng">{t("eng")}</option>
-              <option   value="geo">{t("geo")}</option>
+              <option value="eng">{t("eng")}</option>
+              <option value="geo">{t("geo")}</option>
             </select>
           </div>
         </div>
       </div>
 
       <div
-        onClick={() => {
-          document.cookie =
-            "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        onClick={async () => {
+          await axios.post("/logout");
+
           window.location.reload();
         }}
-        className="flex items-center gap-1 font-semibold pb-4 justify-center md:cursor-pointer"
+        className="flex items-center justify-center gap-1 pb-4 font-semibold md:cursor-pointer"
       >
         <LogOutIcon />
         <span className="text-[#ff0000]">{t("logOut")}</span>

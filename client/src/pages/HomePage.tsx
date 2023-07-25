@@ -8,6 +8,7 @@ import axios from "axios";
 import PostCard from "../components/PostCard";
 import { useTranslation } from "react-i18next";
 import defaultProfile from "../assets/blank-profile-picture-973460_960_720.webp";
+import Cookies from "js-cookie";
 
 const backendURL = "https://vibenetapi.up.railway.app";
 
@@ -65,9 +66,11 @@ const HomePage = () => {
     }
   };
 
+  console.log(Cookies.get());
+
   return (
     <div className="relative font-rubik ">
-      <div className="w-full flex px-4 h-14 items-center justify-between border-b border-[#BDC5CD] relative">
+      <div className="relative flex h-14 w-full items-center justify-between border-b border-[#BDC5CD] px-4">
         <div className="w-[150px] ">
           <div
             onClick={() =>
@@ -78,13 +81,13 @@ const HomePage = () => {
           </div>
         </div>
 
-        <h1 className="text-[#1877F2] text-xl font-bold absolute left-2/4 -translate-x-1/2">
+        <h1 className="absolute left-2/4 -translate-x-1/2 text-xl font-bold text-[#1877F2]">
           VibeNet
         </h1>
       </div>
 
-      <main className="bg-[#F0F2F5] h-full min-h-screen py-5 flex flex-col gap-4">
-        <div className=" bg-white  px-4 shadow-sm max-w-2xl md:shadow-customPost md:rounded-lg md:mx-auto md:min-w-[42rem]">
+      <main className="flex h-full min-h-screen flex-col gap-4 bg-[#F0F2F5] py-5">
+        <div className=" max-w-2xl  bg-white px-4 shadow-sm md:mx-auto md:min-w-[42rem] md:rounded-lg md:shadow-customPost">
           <div className="flex gap-2  border-b border-[#E4E6EB]  py-3">
             <img
               src={
@@ -92,12 +95,12 @@ const HomePage = () => {
                 defaultProfile
               }
               alt="defaultProfile"
-              className="w-10 h-10 rounded-full object-cover"
+              className="h-10 w-10 rounded-full object-cover"
             />
 
             <textarea
               ref={textAreaRef}
-              className="w-full rounded-2xxl bg-[#F0F2F5] focus:outline-none px-3 py-2 resize-none overflow-hidden"
+              className="w-full resize-none overflow-hidden rounded-2xxl bg-[#F0F2F5] px-3 py-2 focus:outline-none"
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder={`${t("whatMind")}, ${profile.name}? `}
@@ -118,17 +121,17 @@ const HomePage = () => {
                     ).value = "";
                   }
                 }}
-                className="absolute top-1 right-1 w-8 h-8 bg-black/75 rounded-full flex items-center justify-center md:cursor-pointer"
+                className="absolute right-1 top-1 flex h-8 w-8 items-center justify-center rounded-full bg-black/75 md:cursor-pointer"
               >
                 <CloseIcon color={"white"} />
               </div>
             </div>
           )}
 
-          <div className=" text-basicFont text-[#656768] flex items-center justify-center ">
+          <div className=" flex items-center justify-center text-basicFont text-[#656768] ">
             <form
               onSubmit={handleSubmit}
-              className="w-full flex items-center justify-evenly py-3  "
+              className="flex w-full items-center justify-evenly py-3  "
             >
               <input
                 type="file"
@@ -140,7 +143,7 @@ const HomePage = () => {
               />
               <label
                 htmlFor="upload-button"
-                className="flex gap-2 items-center md:cursor-pointer"
+                className="flex items-center gap-2 md:cursor-pointer"
               >
                 <PhotoIcon />
                 {t("addPhoto")}
@@ -154,7 +157,7 @@ const HomePage = () => {
                   !text && !image
                     ? "bg-gray-400"
                     : "bg-[#1877F2] hover:bg-blue-700"
-                } text-white font-bold py-2 px-7 rounded-full md:cursor-pointer`}
+                } rounded-full px-7 py-2 font-bold text-white md:cursor-pointer`}
               >
                 Vibe
               </button>
@@ -167,7 +170,7 @@ const HomePage = () => {
 
       <dialog
         ref={dialogRef}
-        className="m-0 p-0 min-h-screen focus:outline-none  animate-fade-right animate-duration-100 animate-ease-linear min-w-[280px]"
+        className="m-0 min-h-screen min-w-[280px] animate-fade-right  p-0 animate-duration-100 animate-ease-linear focus:outline-none"
       >
         <SideBar profPic={profPic} dialogRef={dialogRef} />
       </dialog>

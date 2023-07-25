@@ -7,7 +7,7 @@ i18n
   .use(initReactI18next)
   .init({
     lng: "geo",
-    debug: true,
+    debug: false,
     resources: {
       eng: {
         translation: common_eng
