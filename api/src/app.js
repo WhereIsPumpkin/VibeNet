@@ -32,7 +32,7 @@ dotenv.config();
 connect();
 
 let corsOptions = {
-  origin: "*",
+  origin: "http://localhost:5173",
   credentials: false,
 };
 
