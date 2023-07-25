@@ -119,3 +119,265 @@ paths:
           description: Invalid email or password
         "500":
           description: Server error
+  /api/profile/user:
+    post:
+      tags:
+        - User
+      summary: Get user's profile
+      description: Retrieves the profile of a user with the provided username
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The username of the user
+                  example: "johndoe"
+      responses:
+        "200":
+          description: User profile retrieved successfully
+        "404":
+          description: User not found
+        "500":
+          description: Error retrieving user profile
+  /api/update:
+    post:
+      tags:
+        - User
+      summary: Update user profile
+      description: Updates the profile of the authenticated user
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The first name of the user
+                  example: "John"
+                lastName:
+                  type: string
+                  description: The last name of the user
+                  example: "Doe"
+                bio:
+                  type: string
+                  description: The bio of the user
+                  example: "A short bio about myself"
+                website:
+                  type: string
+                  format: uri
+                  description: The website of the user
+                  example: "https://example.com"
+                location:
+                  type: string
+                  description: The location of the user
+                  example: "New York, NY"
+                profilePic:
+                  type: string
+                  format: binary
+                  description: The profile picture of the user
+                coverPic:
+                  type: string
+                  format: binary
+                  description: The cover picture of the user
+      responses:
+        "200":
+          description: Profile updated successfully
+        "500":
+          description: Error updating profile
+  /api/toggleFollow/{userId}/{followId}:
+    post:
+      tags:
+        - User
+      summary: Toggle follow
+      description: Follows or unfollows a user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: The ID of the user performing the follow/unfollow action
+        - in: path
+          name: followId
+          required: true
+          schema:
+            type: string
+          description: The ID of the user being followed/unfollowed
+      responses:
+        "200":
+          description: Follow/unfollow successful
+        "500":
+          description: Server error
+  /api/profile:
+    get:
+      tags:
+        - User
+      summary: Get profile
+      description: Retrieves the profile of the authenticated user
+      responses:
+        "200":
+          description: User profile retrieved successfully
+        "401":
+          description: No token provided
+  /api/posts/getPosts:
+    get:
+      tags:
+        - Post
+      summary: Get posts
+      description: Retrieves all posts from the database
+      responses:
+        "200":
+          description: Posts retrieved successfully
+        "500":
+          description: Error retrieving posts
+  /api/posts/upload:
+    post:
+      tags:
+        - Post
+      summary: Create post
+      description: Creates a new post
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  description: The content of the post
+                  example: "This is a new post!"
+                author:
+                  type: string
+                  description: The ID of the author of the post
+                postImage:
+                  type: string
+                  format: binary
+                  description: The image of the post
+      responses:
+        "201":
+          description: Post created successfully
+        "500":
+          description: Error creating post
+  /api/posts/like/{postId}/{userId}:
+    post:
+      tags:
+        - Post
+      summary: Like post
+      description: Likes or unlikes a post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            type: string
+          description: The ID of the post being liked/unliked
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: The ID of the user performing the like/unlike action
+      responses:
+        "200":
+          description: Post liked/unliked successfully
+        "404":
+          description: Post not found
+        "500":
+          description: Error liking/unliking post
+  /api/posts/comment/{postId}/{userId}:
+    post:
+      tags:
+        - Post
+      summary: Add comment to post
+      description: Adds a comment to a post
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            type: string
+          description: The ID of the post being commented on
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: The ID of the user adding the comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  description: The content of the comment
+                  example: "This is a great post!"
+      responses:
+        "200":
+          description: Comment added successfully
+        "404":
+          description: Post not found or empty comment content provided
+        "500":
+          description: Error adding comment
+  /api/posts/save/{postId}/{userId}:
+    post:
+      tags:
+        - Post
+      summary: Save post
+      description: Saves or unsaves a post for a user
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            type: string
+          description: The ID of the post being saved/unsaved by the user.
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: The ID of the user saving/unsaving the post.
+      responses:
+        "200":
+          description: Post saved/unsaved successfully
+        "404":
+          description: Post or user not found
+        "500":
+          description: Error saving/unsaving post
+  /api/posts/delete/{id}:
+    delete:
+      tags:
+        - Post
+      summary: Delete post
+      description: Deletes a post from the database
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the post being deleted.
+      responses:
+        "200":
+          description: Post deleted successfully
+        "500":
+          description: Error deleting post
+  /logout:
+    post:
+      tags:
+        - User
+      summary: Log out
+      description: Logs out the user by clearing the authentication token cookie
+      responses:
+        "200":
+          description: User logged out successfully
