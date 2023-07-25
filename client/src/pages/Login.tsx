@@ -17,43 +17,47 @@ const Login = () => {
     }
   };
 
-  
-
   return (
-    <div className="bg-[#f0f2f5] w-screen h-screen flex items-center font-rubik">
-      <div className="mr-auto ml-auto h-full flex items-center overflow-y-hidden mobile:max-xl:flex-col mobile:max-xl:py-8 mobile:max-xl:gap-32 mobile:max-xl:px-4">
-
+    <div className="flex h-screen w-screen items-center bg-[#f0f2f5] font-rubik">
+      <div className="ml-auto mr-auto flex h-full items-center overflow-y-hidden mobile:max-xl:flex-col mobile:max-xl:gap-32 mobile:max-xl:px-4 mobile:max-xl:py-8">
         <div className="w-50 mr-20 mobile:max-xl:mr-0 ">
-          <h1 className="text-[#1877F2] text-4xl font-bold mb-4 mobile:max-xl:mb-0">VibeNet</h1>
-          <p className="text-xl w-[500px] font-normal mobile:max-xl:hidden">
+          <h1 className="mb-4 text-4xl font-bold text-[#1877F2] mobile:max-xl:mb-0">
+            VibeNet
+          </h1>
+          <p className="w-[500px] text-xl font-normal mobile:max-xl:hidden">
             "Connect, vibe, and explore the world on VibeNet – your ultimate
             social destination!"
           </p>
         </div>
 
-        <div className="bg-white p-5 w-96 rounded-lg shadow-custom mobile:max-xl:max-w-full">
+        <div className="w-96 rounded-lg bg-white p-5 shadow-custom mobile:max-xl:max-w-full">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
-              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877f2]"
+              id="email"
+              name="email"
+              className="rounded-md border border-solid border-[#dddfe2] px-4 py-3 text-base focus:border-[#1877f2] focus:outline-none"
               placeholder="Email"
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
+              autoComplete="email"
             />
             <input
-              className="py-3 px-4 rounded-md text-base border border-solid border-[#dddfe2] focus:outline-none focus:border-[#1877f2]"
+              id="password"
+              name="password"
+              className="rounded-md border border-solid border-[#dddfe2] px-4 py-3 text-base focus:border-[#1877f2] focus:outline-none"
               placeholder="Password"
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              autoComplete="current-password"
             />
             <button
               type="submit"
-              className="bg-[#1877f2] text-white text-xl h-12 rounded-md font-medium"
+              className="h-12 rounded-md bg-[#1877f2] text-xl font-medium text-white"
             >
               Log in
             </button>
-            
 
             <hr />
 
@@ -62,7 +66,7 @@ const Login = () => {
               onClick={() =>
                 dialogRef.current ? dialogRef.current.showModal() : null
               }
-              className="bg-[#42b72a] w-48 mx-auto rounded-md h-12 text-white font-medium"
+              className="mx-auto h-12 w-48 rounded-md bg-[#42b72a] font-medium text-white"
             >
               Create new account
             </button>
@@ -72,7 +76,6 @@ const Login = () => {
             <Register dialogRef={dialogRef} />
           </dialog>
         </div>
-
       </div>
     </div>
   );

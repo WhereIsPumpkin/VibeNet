@@ -8,9 +8,8 @@ import Saved from "./pages/Saved.tsx";
 import i18n from "./i18.ts";
 import { I18nextProvider } from "react-i18next";
 
-
 function App() {
-  axios.defaults.baseURL = "https://vibenetapi.up.railway.app";
+  axios.defaults.baseURL = "https://vibenetapi.up.railway.app/";
   axios.defaults.withCredentials = true;
 
   return (

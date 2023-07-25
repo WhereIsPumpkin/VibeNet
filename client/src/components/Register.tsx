@@ -56,7 +56,7 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
   };
 
   return (
-    <div className="flex flex-col font-rubik gap-4">
+    <div className="flex flex-col gap-4 font-rubik">
       <div className="flex justify-between border-b">
         <div className="flex flex-col gap-1  pb-3">
           <h1 className="text-3xl font-semibold text-[#1c1e21]">Sign Up</h1>
@@ -71,7 +71,7 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6 cursor-pointer"
+          className="h-6 w-6 cursor-pointer"
         >
           <path
             strokeLinecap="round"
@@ -90,12 +90,13 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
             {...register("name")}
             type="text"
             placeholder="First name"
-            className={`row-start-1 mobile:max-xl:w-full row-end-2 col-start-1 col-end-2 p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+            autoComplete="name"
+            className={`col-start-1 col-end-2 row-start-1 row-end-2 h-10 rounded-md border bg-[#f0f2f5] p-3 mobile:max-xl:w-full ${
               errors.name ? "border-red-500" : "border-[#ccd0d5]"
-            } focus:outline-none text-base`}
+            } text-base focus:outline-none`}
           />
           {errors.name && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 transform">
               <ErrorIcon />
             </div>
           )}
@@ -105,74 +106,76 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
             {...register("lastName")}
             type="text"
             placeholder="Last name"
-            className={`row-start-1 row-end-2 mobile:max-xl:w-full  col-start-2 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+            className={`col-start-2 col-end-3 row-start-1  row-end-2 h-10 rounded-md border bg-[#f0f2f5] p-3 mobile:max-xl:w-full ${
               errors.lastName ? "border-red-500" : "border-[#ccd0d5]"
-            } focus:outline-none text-base`}
+            } text-base focus:outline-none`}
           />
           {errors.lastName && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 transform">
               <ErrorIcon />
             </div>
           )}
         </div>
 
-        <div className="row-start-2 row-end-3 col-start-1 col-end-3 relative">
+        <div className="relative col-start-1 col-end-3 row-start-2 row-end-3">
           <input
             {...register("email")}
             type="email"
             placeholder="Email"
-            className={` w-full p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+            autoComplete="email"
+            className={` h-10 w-full rounded-md border bg-[#f0f2f5] p-3 ${
               errors.email ? "border-red-500" : "border-[#ccd0d5]"
-            } focus:outline-none text-base`}
+            } text-base focus:outline-none`}
           />
           {errors.email && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 transform">
               <ErrorIcon />
             </div>
           )}
         </div>
-        <div className="row-start-3 row-end-4 col-start-1 col-end-3 relative">
+        <div className="relative col-start-1 col-end-3 row-start-3 row-end-4">
           <input
             {...register("username")}
             type="text"
+            autoComplete="username"
             placeholder="Username"
-            className={` w-full p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+            className={` h-10 w-full rounded-md border bg-[#f0f2f5] p-3 ${
               errors.username ? "border-red-500" : "border-[#ccd0d5]"
-            } focus:outline-none text-base`}
+            } text-base focus:outline-none`}
           />
           {errors.username && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 transform">
               <ErrorIcon />
             </div>
           )}
         </div>
-        <div className="row-start-4 row-end-5 col-start-1 col-end-3 relative">
+        <div className="relative col-start-1 col-end-3 row-start-4 row-end-5">
           <input
             {...register("password")}
             type="password"
             placeholder="New Password"
-            className={`w-full p-3 h-10 bg-[#f0f2f5] rounded-md border ${
+            className={`h-10 w-full rounded-md border bg-[#f0f2f5] p-3 ${
               errors.password ? "border-red-500" : "border-[#ccd0d5]"
-            } focus:outline-none text-base`}
+            } text-base focus:outline-none`}
           />
           {errors.password && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 transform">
               <ErrorIcon />
             </div>
           )}
         </div>
 
-        <div className="row-start-5 row-end-6 col-start-1 col-end-3">
-          <label htmlFor="gender" className="text-[#606770] text-xs">
+        <div className="col-start-1 col-end-3 row-start-5 row-end-6">
+          <label htmlFor="female" className="text-xs text-[#606770]">
             Gender:
           </label>
 
-          <div className="flex gap-x-4 w-full justify-between">
+          <div className="flex w-full justify-between gap-x-4">
             <label
               htmlFor="female"
               className={`border ${
                 errors.gender ? "border-red-500" : "border-[#ccd0d5]"
-              } flex items-center w-32 h-9 rounded-md px-3 justify-between`}
+              } flex h-9 w-32 items-center justify-between rounded-md px-3`}
             >
               Female
               <input
@@ -187,7 +190,7 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
 
             <label
               htmlFor="male"
-              className={`flex items-center w-32 h-9 rounded-md px-3 justify-between border ${
+              className={`flex h-9 w-32 items-center justify-between rounded-md border px-3 ${
                 errors.gender ? "border-red-500" : "border-[#ccd0d5]"
               }`}
             >
@@ -203,7 +206,7 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
 
             <label
               htmlFor="custom"
-              className={`flex items-center w-32 h-9 rounded-md px-3 justify-between border ${
+              className={`flex h-9 w-32 items-center justify-between rounded-md border px-3 ${
                 errors.gender ? "border-red-500" : "border-[#ccd0d5]"
               }`}
             >
@@ -225,11 +228,11 @@ const Register: React.FC<RegisterProps> = ({ dialogRef }) => {
             {...register("customGender")}
             type="text"
             placeholder="Gender (optional)"
-            className="row-start-6 row-end-7 col-start-1 col-end-3 p-3 h-10 bg-[#f0f2f5] rounded-md border border-[#ccd0d5] focus:outline-none text-base"
+            className="col-start-1 col-end-3 row-start-6 row-end-7 h-10 rounded-md border border-[#ccd0d5] bg-[#f0f2f5] p-3 text-base focus:outline-none"
           />
         )}
 
-        <button className="row-start-7 row-end-8 col-start-1 col-end-3 bg-[#00a400] text-white w-48 h-9 font-semibold rounded-md mx-auto mt-4">
+        <button className="row-end-8 col-start-1 col-end-3 row-start-7 mx-auto mt-4 h-9 w-48 rounded-md bg-[#00a400] font-semibold text-white">
           Sign Up
         </button>
       </form>
